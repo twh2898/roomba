@@ -24,16 +24,16 @@ int main() {
     int movementCounter = 0;
     int leftSpeed, rightSpeed;
 
-    auto robot = make_shared<Robot>();
+    Robot robot;
 
-    auto bumper = robot->getTouchSensor("bumper");
+    auto bumper = robot.getTouchSensor("bumper");
     bumper->enable(TIME_STEP);
 
-    auto accel = robot->getAccelerometer("accel");
+    auto accel = robot.getAccelerometer("accel");
     accel->enable(TIME_STEP);
 
-    auto leftMotor = robot->getMotor("left wheel motor");
-    auto rightMotor = robot->getMotor("right wheel motor");
+    auto leftMotor = robot.getMotor("left wheel motor");
+    auto rightMotor = robot.getMotor("right wheel motor");
 
     leftMotor->setPosition(INFINITY);
     rightMotor->setPosition(INFINITY);
@@ -43,7 +43,7 @@ int main() {
 
     UDPClient client(9870, "0.0.0.0");
 
-    while (robot->step(TIME_STEP) != -1) {
+    while (robot.step(TIME_STEP) != -1) {
         if (bumper->getValue() > 0)
             movementCounter = 15;
 
@@ -69,7 +69,7 @@ int main() {
             {"x", comp[0]},
             {"y", comp[1]},
             {"z", comp[2]},
-            {"time", robot->getTime()},
+            {"time", robot.getTime()},
         };
         client.send_message(accelData.dump());
 
