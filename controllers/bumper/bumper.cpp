@@ -18,12 +18,15 @@
  * Description:  An example of use of a bumper touch sensor device.
  */
 
-#include <webots/accelerometer.h>
-#include <webots/motor.h>
-#include <webots/robot.h>
-#include <webots/touch_sensor.h>
+
+#include <webots/Accelerometer.hpp>
+#include <webots/Motor.hpp>
+#include <webots/Robot.hpp>
+#include <webots/TouchSensor.hpp>
+using namespace webots;
 
 #include <iostream>
+#include <memory>
 #include <vector>
 using namespace std;
 
@@ -39,38 +42,31 @@ using json = nlohmann::json;
 #define TIME_STEP 64
 
 int main() {
-    WbDeviceTag bumper, accel;
-    WbDeviceTag left_motor, right_motor;
     int movement_counter = 0;
     int left_speed, right_speed;
 
-    wb_robot_init();
+    auto robot = make_shared<Robot>();
 
-    /* get a handle the the bumper and activate it. */
-    bumper = wb_robot_get_device("bumper");
-    wb_touch_sensor_enable(bumper, TIME_STEP);
+    auto bumper = robot->getTouchSensor("bumper");
+    bumper->enable(TIME_STEP);
 
-    accel = wb_robot_get_device("accel");
-    wb_accelerometer_enable(accel, TIME_STEP);
+    auto accel = robot->getAccelerometer("accel");
+    accel->enable(TIME_STEP);
 
-    /* get a handler to the motors and set target position to infinity (speed
-     * control) */
-    left_motor = wb_robot_get_device("left wheel motor");
-    right_motor = wb_robot_get_device("right wheel motor");
-    wb_motor_set_position(left_motor, INFINITY);
-    wb_motor_set_position(right_motor, INFINITY);
-    wb_motor_set_velocity(left_motor, 0.0);
-    wb_motor_set_velocity(right_motor, 0.0);
+    auto left_motor = robot->getMotor("left wheel motor");
+    auto right_motor = robot->getMotor("right wheel motor");
+
+    left_motor->setPosition(INFINITY);
+    right_motor->setPosition(INFINITY);
+
+    left_motor->setVelocity(0.0);
+    right_motor->setVelocity(0.0);
 
     UDPClient client(9870, "0.0.0.0");
 
     /* control loop */
-    while (wb_robot_step(TIME_STEP) != -1) {
-        /*
-         * When the touch sensor has detected something we begin the avoidance
-         * movement.
-         */
-        if (wb_touch_sensor_get_value(bumper) > 0)
+    while (robot->step(TIME_STEP) != -1) {
+        if (bumper->getValue() > 0)
             movement_counter = 15;
 
         /*
@@ -94,7 +90,7 @@ int main() {
             movement_counter--;
         }
 
-        auto * comp = wb_accelerometer_get_values(accel);
+        auto * comp = accel->getValues();
         cout << "X " << comp[0] << " Y " << comp[1] << " Z " << comp[2] << endl;
 
 
@@ -103,7 +99,7 @@ int main() {
             {"x", comp[0]},
             {"y", comp[1]},
             {"z", comp[2]},
-            {"time", wb_robot_get_time()},
+            {"time", robot->getTime()},
         };
         client.send_message(ex3.dump());
 
@@ -112,11 +108,9 @@ int main() {
         // }
 
         /* Set the motor speeds. */
-        wb_motor_set_velocity(left_motor, left_speed);
-        wb_motor_set_velocity(right_motor, right_speed);
+        left_motor->setVelocity(left_speed);
+        right_motor->setVelocity(right_speed);
     }
-
-    wb_robot_cleanup();
 
     return 0;
 }
