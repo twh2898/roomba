@@ -30,6 +30,10 @@ using namespace std;
 #include "Loc.hpp"
 #include "MC.hpp"
 #include "Planning.hpp"
+#include "json.hpp"
+#include "simple_cpp_sockets.h"
+
+using json = nlohmann::json;
 
 #define SPEED 3
 #define TIME_STEP 64
@@ -57,6 +61,8 @@ int main() {
     wb_motor_set_position(right_motor, INFINITY);
     wb_motor_set_velocity(left_motor, 0.0);
     wb_motor_set_velocity(right_motor, 0.0);
+
+    UDPClient client(9870, "0.0.0.0");
 
     /* control loop */
     while (wb_robot_step(TIME_STEP) != -1) {
@@ -90,6 +96,16 @@ int main() {
 
         auto * comp = wb_accelerometer_get_values(accel);
         cout << "X " << comp[0] << " Y " << comp[1] << " Z " << comp[2] << endl;
+
+
+        // Using initializer lists
+        json ex3 = {
+            {"x", comp[0]},
+            {"y", comp[1]},
+            {"z", comp[2]},
+            {"time", wb_robot_get_time()},
+        };
+        client.send_message(ex3.dump());
 
         // if (comp[0] > 0.2) {
         //     movement_counter = 15;
