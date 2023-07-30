@@ -63,7 +63,6 @@ int main() {
         }
 
         auto * comp = accel->getValues();
-        cout << "X " << comp[0] << " Y " << comp[1] << " Z " << comp[2] << endl;
 
         json accelData = {
             {"x", comp[0]},
@@ -72,10 +71,6 @@ int main() {
             {"time", robot.getTime()},
         };
         client.send_message(accelData.dump());
-
-        // if (comp[0] > 0.2) {
-        //     movementCounter = 15;
-        // }
 
         leftMotor->setVelocity(leftSpeed);
         rightMotor->setVelocity(rightSpeed);
