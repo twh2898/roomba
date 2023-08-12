@@ -11,3 +11,4 @@ link_directories(${WEBOTS_HOME}/lib/controller)
 include_directories(${WEBOTS_HOME}/include/controller/c ${WEBOTS_HOME}/include/controller/cpp)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/controllers/bumper)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/controllers/simple)
