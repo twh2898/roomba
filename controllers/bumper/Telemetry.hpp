@@ -19,23 +19,49 @@ namespace roomba {
         Telemetry(int udpPort, string udpAddress) : udp(udpPort, udpAddress) {}
 
         void send(Roomba * roomba) {
-            auto * comp = roomba->accel->getValues();
-
-            json accelData = {
-                {"accel",
-                 {
-                     {"x", comp[0]},
-                     {"y", comp[1]},
-                     {"z", comp[2]},
-                 }},
+            json motorData = {
                 {"left",
                  {
                      {"velocity", roomba->leftMotor->getVelocity()},
+                     {"position", roomba->leftEncoder->getValue()},
                  }},
                 {"right",
                  {
                      {"velocity", roomba->rightMotor->getVelocity()},
+                     {"position", roomba->rightEncoder->getValue()},
                  }},
+            };
+
+            auto * accel = roomba->accel->getValues();
+            json accelData = {
+                {"x", accel[0]},
+                {"y", accel[1]},
+                {"z", accel[2]},
+            };
+
+            auto * gyro = roomba->gyro->getValues();
+            json gyroData = {
+                {"x", gyro[0]},
+                {"y", gyro[1]},
+                {"z", gyro[2]},
+            };
+
+            auto * gps = roomba->gps->getValues();
+            json gpsData = {
+                {"x", gps[0]},
+                {"y", gps[1]},
+                {"z", gps[2]},
+            };
+
+            json sensorData = {
+                {"accel", accelData},
+                {"gyro", gyroData},
+                {"gps", gpsData},
+            };
+
+            json data = {
+                {"motor", motorData},
+                {"sensors", sensorData},
                 // {"local",
                 //  {
                 //      {"velocity",
@@ -51,7 +77,7 @@ namespace roomba {
                 //  }},
                 {"time", roomba->robot->getTime()},
             };
-            udp.send_message(accelData.dump());
+            udp.send_message(data.dump());
         }
     };
 }

@@ -3,44 +3,57 @@
  <tabbed_widget parent="main_window" name="Main Window">
   <Tab containers="1" tab_name="tab1">
    <Container>
-    <DockSplitter count="2" orientation="-" sizes="0.470787;0.529213">
-     <DockSplitter count="3" orientation="|" sizes="0.333542;0.332915;0.333542">
-      <DockArea name="...">
-       <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
-        <range top="3.000000" left="113.890000" right="118.860000" bottom="-3.000000"/>
-        <limitY min="-3" max="3"/>
-        <curve name="/accel/x" color="#1f77b4"/>
+    <DockSplitter sizes="0.5;0.5" orientation="-" count="2">
+     <DockSplitter sizes="0.5;0.5" orientation="|" count="2">
+      <DockArea name="Accel">
+       <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+        <range bottom="-4.499981" right="1691905617.135858" left="1691905597.189351" top="2.592181"/>
+        <limitY/>
+        <curve name="/sensors/accel/x" color="#1f77b4"/>
+        <curve name="/sensors/accel/y" color="#d62728"/>
        </plot>
       </DockArea>
-      <DockArea name="...">
-       <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
-        <range top="3.000000" left="113.890000" right="118.860000" bottom="-3.000000"/>
-        <limitY min="-3" max="3"/>
-        <curve name="/accel/y" color="#d62728"/>
-       </plot>
-      </DockArea>
-      <DockArea name="...">
-       <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
-        <range top="13.000000" left="113.890000" right="118.860000" bottom="6.000000"/>
-        <limitY min="6" max="13"/>
-        <curve name="/accel/z" color="#1ac938"/>
+      <DockArea name="Gyro">
+       <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+        <range bottom="-0.020626" right="1691905617.135858" left="1691905597.189351" top="0.005356"/>
+        <limitY/>
+        <curve name="/sensors/gyro/x" color="#1ac938"/>
+        <curve name="/sensors/gyro/y" color="#ff7f0e"/>
        </plot>
       </DockArea>
      </DockSplitter>
-     <DockArea name="...">
-      <plot flip_y="false" style="Lines" mode="TimeSeries" flip_x="false">
-       <range top="20.000000" left="113.890000" right="118.860000" bottom="-20.000000"/>
-       <limitY min="-20" max="20"/>
-       <curve name="/left/velocity" color="#ff7f0e"/>
-       <curve name="/right/velocity" color="#f14cc1"/>
-      </plot>
-     </DockArea>
+     <DockSplitter sizes="0.5;0.5" orientation="|" count="2">
+      <DockArea name="Motor">
+       <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+        <range bottom="-10.500000" right="1691905617.135858" left="1691905597.189351" top="10.500000"/>
+        <limitY/>
+        <curve name="/motor/left/velocity" color="#f14cc1"/>
+        <curve name="/motor/right/velocity" color="#9467bd"/>
+       </plot>
+      </DockArea>
+      <DockSplitter sizes="0.5;0.5" orientation="-" count="2">
+       <DockArea name="L Encoder">
+        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+         <range bottom="960.964658" right="1691905617.135858" left="1691905597.189351" top="1018.240142"/>
+         <limitY/>
+         <curve name="/motor/left/position" color="#17becf"/>
+        </plot>
+       </DockArea>
+       <DockArea name="R Encoder">
+        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+         <range bottom="1288.118903" right="1691905617.135858" left="1691905597.189351" top="1385.057297"/>
+         <limitY/>
+         <curve name="/motor/right/position" color="#bcbd22"/>
+        </plot>
+       </DockArea>
+      </DockSplitter>
+     </DockSplitter>
     </DockSplitter>
    </Container>
   </Tab>
   <currentTabIndex index="0"/>
  </tabbed_widget>
- <use_relative_time_offset enabled="1"/>
+ <use_relative_time_offset enabled="0"/>
  <!-- - - - - - - - - - - - - - - -->
  <!-- - - - - - - - - - - - - - - -->
  <Plugins>
