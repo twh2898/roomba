@@ -6,6 +6,7 @@ add_executable(${TARGET}
     json.hpp
     Localizer.hpp
     MC.hpp
+    PID.hpp
     Planning.hpp
     Roomba.hpp
     simple_cpp_sockets.h
