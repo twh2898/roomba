@@ -32,10 +32,10 @@ int main() {
 
     Telemetry telem(9870, "0.0.0.0");
 
-    Localizer local(roomba.accel, roomba.leftMotor, roomba.rightMotor);
+    Localizer local;
 
     while (robot.step(TIME_STEP) != -1) {
-        local.update();
+        local.update(&roomba);
 
         if (roomba.bumper->getValue() > 0)
             movementCounter = 15;
