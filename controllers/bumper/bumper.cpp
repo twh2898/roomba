@@ -1,5 +1,7 @@
 #include <webots/Accelerometer.hpp>
+#include <webots/Gyro.hpp>
 #include <webots/Motor.hpp>
+#include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
 using namespace webots;
@@ -12,12 +14,15 @@ using namespace std;
 #include "Loc.hpp"
 #include "MC.hpp"
 #include "Planning.hpp"
+#include "Roomba.hpp"
 #include "json.hpp"
 #include "simple_cpp_sockets.h"
 
 using json = nlohmann::json;
 
-#define SPEED 3
+using namespace roomba;
+
+#define SPEED 10
 #define TIME_STEP 64
 
 int main() {
@@ -25,26 +30,17 @@ int main() {
     int leftSpeed, rightSpeed;
 
     Robot robot;
-
-    auto bumper = robot.getTouchSensor("bumper");
-    bumper->enable(TIME_STEP);
-
-    auto accel = robot.getAccelerometer("accel");
-    accel->enable(TIME_STEP);
-
-    auto leftMotor = robot.getMotor("left wheel motor");
-    auto rightMotor = robot.getMotor("right wheel motor");
-
-    leftMotor->setPosition(INFINITY);
-    rightMotor->setPosition(INFINITY);
-
-    leftMotor->setVelocity(0.0);
-    rightMotor->setVelocity(0.0);
+    Roomba roomba(&robot);
+    roomba.enable(TIME_STEP);
 
     UDPClient client(9870, "0.0.0.0");
 
+    Localizer local(roomba.accel, roomba.leftMotor, roomba.rightMotor);
+
     while (robot.step(TIME_STEP) != -1) {
-        if (bumper->getValue() > 0)
+        local.update();
+
+        if (roomba.bumper->getValue() > 0)
             movementCounter = 15;
 
         if (movementCounter == 0) {
@@ -62,18 +58,42 @@ int main() {
             movementCounter--;
         }
 
-        auto * comp = accel->getValues();
+        auto * comp = roomba.accel->getValues();
 
         json accelData = {
-            {"x", comp[0]},
-            {"y", comp[1]},
-            {"z", comp[2]},
+            {"accel",
+             {
+                 {"x", comp[0]},
+                 {"y", comp[1]},
+                 {"z", comp[2]},
+             }},
+            {"left",
+             {
+                 {"velocity", roomba.leftMotor->getVelocity()},
+             }},
+            {"right",
+             {
+                 {"velocity", roomba.rightMotor->getVelocity()},
+             }},
+            {"local",
+             {
+                 {"velocity",
+                  {
+                      {"x", local.velX},
+                      {"y", local.velY},
+                  }},
+                 {"position",
+                  {
+                      {"x", local.posX},
+                      {"y", local.posY},
+                  }},
+             }},
             {"time", robot.getTime()},
         };
         client.send_message(accelData.dump());
 
-        leftMotor->setVelocity(leftSpeed);
-        rightMotor->setVelocity(rightSpeed);
+        roomba.leftMotor->setVelocity(leftSpeed);
+        roomba.rightMotor->setVelocity(rightSpeed);
     }
 
     return 0;

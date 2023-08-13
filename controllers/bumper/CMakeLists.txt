@@ -7,7 +7,9 @@ add_executable(${TARGET}
     Loc.hpp
     MC.hpp
     Planning.hpp
+    Roomba.hpp
     simple_cpp_sockets.h
+    Telemetry.hpp
 )
 
 target_link_libraries(${TARGET} ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
