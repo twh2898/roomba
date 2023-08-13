@@ -31,7 +31,7 @@ namespace roomba {
 
             if (roomba->leftMotor->getVelocity() == 0
                 && roomba->rightMotor->getVelocity() == 0) {
-                std::cout << "Velocity 0" << std::endl;
+                // std::cout << "Velocity 0" << std::endl;
                 velX = 0;
                 velY = 0;
             }
