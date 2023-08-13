@@ -3,6 +3,7 @@
 #include <webots/Accelerometer.hpp>
 #include <webots/GPS.hpp>
 #include <webots/Gyro.hpp>
+#include <webots/InertialUnit.hpp>
 #include <webots/Motor.hpp>
 #include <webots/PositionSensor.hpp>
 #include <webots/Robot.hpp>
@@ -19,6 +20,7 @@ namespace roomba {
         Accelerometer * accel;
         Gyro * gyro;
         GPS * gps;
+        InertialUnit * imu;
         PositionSensor * leftEncoder;
         PositionSensor * rightEncoder;
         TouchSensor * bumper;
@@ -29,6 +31,7 @@ namespace roomba {
             accel = robot->getAccelerometer("accel");
             gyro = robot->getGyro("gyro");
             gps = robot->getGPS("gps");
+            imu = robot->getInertialUnit("imu");
 
             leftMotor = robot->getMotor("left wheel motor");
             rightMotor = robot->getMotor("right wheel motor");
@@ -48,6 +51,7 @@ namespace roomba {
             accel->enable(samplingPeriod);
             gyro->enable(samplingPeriod);
             gps->enable(samplingPeriod);
+            imu->enable(samplingPeriod);
             leftEncoder->enable(samplingPeriod);
             rightEncoder->enable(samplingPeriod);
         }
@@ -57,6 +61,7 @@ namespace roomba {
             accel->disable();
             gyro->disable();
             gps->disable();
+            imu->disable();
             leftEncoder->disable();
             rightEncoder->disable();
         }

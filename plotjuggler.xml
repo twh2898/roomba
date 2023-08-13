@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
  <tabbed_widget parent="main_window" name="Main Window">
-  <Tab containers="1" tab_name="tab1">
+  <Tab containers="1" tab_name="Sensors">
    <Container>
-    <DockSplitter sizes="0.5;0.5" orientation="-" count="2">
+    <DockSplitter sizes="0.500562;0.499438" orientation="-" count="2">
      <DockSplitter sizes="0.5;0.5" orientation="|" count="2">
       <DockArea name="Accel">
        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
-        <range bottom="-4.499981" right="1691905617.135858" left="1691905597.189351" top="2.592181"/>
+        <range bottom="-3.405270" right="1691906156.327190" left="1691906136.336161" top="2.527561"/>
         <limitY/>
         <curve name="/sensors/accel/x" color="#1f77b4"/>
         <curve name="/sensors/accel/y" color="#d62728"/>
@@ -15,7 +15,7 @@
       </DockArea>
       <DockArea name="Gyro">
        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
-        <range bottom="-0.020626" right="1691905617.135858" left="1691905597.189351" top="0.005356"/>
+        <range bottom="-0.026072" right="1691906156.327190" left="1691906136.336161" top="0.007634"/>
         <limitY/>
         <curve name="/sensors/gyro/x" color="#1ac938"/>
         <curve name="/sensors/gyro/y" color="#ff7f0e"/>
@@ -25,29 +25,33 @@
      <DockSplitter sizes="0.5;0.5" orientation="|" count="2">
       <DockArea name="Motor">
        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
-        <range bottom="-10.500000" right="1691905617.135858" left="1691905597.189351" top="10.500000"/>
+        <range bottom="-10.500000" right="1691906156.327190" left="1691906136.336161" top="10.500000"/>
         <limitY/>
         <curve name="/motor/left/velocity" color="#f14cc1"/>
         <curve name="/motor/right/velocity" color="#9467bd"/>
        </plot>
       </DockArea>
-      <DockSplitter sizes="0.5;0.5" orientation="-" count="2">
-       <DockArea name="L Encoder">
-        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
-         <range bottom="960.964658" right="1691905617.135858" left="1691905597.189351" top="1018.240142"/>
-         <limitY/>
-         <curve name="/motor/left/position" color="#17becf"/>
-        </plot>
-       </DockArea>
-       <DockArea name="R Encoder">
-        <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
-         <range bottom="1288.118903" right="1691905617.135858" left="1691905597.189351" top="1385.057297"/>
-         <limitY/>
-         <curve name="/motor/right/position" color="#bcbd22"/>
-        </plot>
-       </DockArea>
-      </DockSplitter>
+      <DockArea name="IMU">
+       <plot style="Lines" flip_y="false" mode="TimeSeries" flip_x="false">
+        <range bottom="-1.541707" right="1691906156.327190" left="1691906136.336161" top="-0.210888"/>
+        <limitY/>
+        <curve name="/sensors/imu/z" color="#d62728"/>
+       </plot>
+      </DockArea>
      </DockSplitter>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="GPS">
+   <Container>
+    <DockSplitter sizes="1" orientation="-" count="1">
+     <DockArea name="...">
+      <plot style="Lines" flip_y="false" mode="XYPlot" flip_x="false">
+       <range bottom="-1.394115" right="0.866519" left="-3.108817" top="0.653079"/>
+       <limitY/>
+       <curve name="/sensors/gps/[x;y]" color="#1ac938" curve_x="/sensors/gps/x" curve_y="/sensors/gps/y"/>
+      </plot>
+     </DockArea>
     </DockSplitter>
    </Container>
   </Tab>

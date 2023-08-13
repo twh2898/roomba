@@ -53,10 +53,18 @@ namespace roomba {
                 {"z", gps[2]},
             };
 
+            auto * imu = roomba->imu->getRollPitchYaw();
+            json imuData = {
+                {"x", imu[0]},
+                {"y", imu[1]},
+                {"z", imu[2]},
+            };
+
             json sensorData = {
                 {"accel", accelData},
                 {"gyro", gyroData},
                 {"gps", gpsData},
+                {"imu", imuData},
             };
 
             json data = {
