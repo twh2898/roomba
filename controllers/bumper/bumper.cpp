@@ -21,7 +21,6 @@ using namespace std;
 
 using namespace roomba;
 
-#define SPEED 20
 #define TIME_STEP 64
 
 int main() {
@@ -41,7 +40,10 @@ int main() {
 
     Localizer local;
 
-    auto twistConfig = pidConfig["twist"];
+    auto mode = pidConfig["mode"];
+
+    auto twistConfig = pidConfig[mode];
+    const double speed = twistConfig["speed"];
     PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
 
     double target = pidConfig["target"];
@@ -57,8 +59,8 @@ int main() {
             {"twist", twist},
         });
 
-        leftSpeed = -SPEED * twist;
-        rightSpeed = SPEED * twist;
+        leftSpeed = -speed * twist;
+        rightSpeed = speed * twist;
 
         // if (roomba.bumper->getValue() > 0)
         //     movementCounter = 15;
