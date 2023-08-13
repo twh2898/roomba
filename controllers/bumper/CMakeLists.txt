@@ -4,7 +4,7 @@ set(TARGET bumper)
 add_executable(${TARGET}
     bumper.cpp
     json.hpp
-    Loc.hpp
+    Localizer.hpp
     MC.hpp
     Planning.hpp
     Roomba.hpp

@@ -2,7 +2,7 @@
 
 #include <webots/Motor.hpp>
 
-#include "Loc.hpp"
+#include "Localizer.hpp"
 
 namespace roomba {
     using webots::Motor;

@@ -11,7 +11,7 @@ using namespace webots;
 #include <vector>
 using namespace std;
 
-#include "Loc.hpp"
+#include "Localizer.hpp"
 #include "MC.hpp"
 #include "Planning.hpp"
 #include "Roomba.hpp"
