@@ -15,10 +15,7 @@ using namespace std;
 #include "MC.hpp"
 #include "Planning.hpp"
 #include "Roomba.hpp"
-#include "json.hpp"
-#include "simple_cpp_sockets.h"
-
-using json = nlohmann::json;
+#include "Telemetry.hpp"
 
 using namespace roomba;
 
@@ -33,7 +30,7 @@ int main() {
     Roomba roomba(&robot);
     roomba.enable(TIME_STEP);
 
-    UDPClient client(9870, "0.0.0.0");
+    Telemetry telem(9870, "0.0.0.0");
 
     Localizer local(roomba.accel, roomba.leftMotor, roomba.rightMotor);
 
@@ -58,42 +55,10 @@ int main() {
             movementCounter--;
         }
 
-        auto * comp = roomba.accel->getValues();
-
-        json accelData = {
-            {"accel",
-             {
-                 {"x", comp[0]},
-                 {"y", comp[1]},
-                 {"z", comp[2]},
-             }},
-            {"left",
-             {
-                 {"velocity", roomba.leftMotor->getVelocity()},
-             }},
-            {"right",
-             {
-                 {"velocity", roomba.rightMotor->getVelocity()},
-             }},
-            {"local",
-             {
-                 {"velocity",
-                  {
-                      {"x", local.velX},
-                      {"y", local.velY},
-                  }},
-                 {"position",
-                  {
-                      {"x", local.posX},
-                      {"y", local.posY},
-                  }},
-             }},
-            {"time", robot.getTime()},
-        };
-        client.send_message(accelData.dump());
-
         roomba.leftMotor->setVelocity(leftSpeed);
         roomba.rightMotor->setVelocity(rightSpeed);
+
+        telem.send(&roomba);
     }
 
     return 0;
