@@ -1,6 +1,7 @@
 #pragma once
 
 #include <webots/Accelerometer.hpp>
+#include <webots/GPS.hpp>
 #include <webots/Gyro.hpp>
 #include <webots/Motor.hpp>
 #include <webots/PositionSensor.hpp>
@@ -17,6 +18,7 @@ namespace roomba {
         Motor * rightMotor;
         Accelerometer * accel;
         Gyro * gyro;
+        GPS * gps;
         PositionSensor * leftEncoder;
         PositionSensor * rightEncoder;
         TouchSensor * bumper;
@@ -26,6 +28,7 @@ namespace roomba {
             bumper = robot->getTouchSensor("bumper");
             accel = robot->getAccelerometer("accel");
             gyro = robot->getGyro("gyro");
+            gps = robot->getGPS("gps");
 
             leftMotor = robot->getMotor("left wheel motor");
             rightMotor = robot->getMotor("right wheel motor");
@@ -44,6 +47,7 @@ namespace roomba {
             bumper->enable(timeStep);
             accel->enable(timeStep);
             gyro->enable(timeStep);
+            gps->enable(timeStep);
             leftEncoder->enable(timeStep);
             rightEncoder->enable(timeStep);
         }
@@ -52,6 +56,7 @@ namespace roomba {
             bumper->disable();
             accel->disable();
             gyro->disable();
+            gps->disable();
             leftEncoder->disable();
             rightEncoder->disable();
         }
