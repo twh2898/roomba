@@ -11,6 +11,20 @@ PROTO Roomba [
     translation IS translation
     rotation IS rotation
     children [
+      Pose {
+        translation 0 0 0.0045
+        children [
+          Accelerometer {
+            name "accelerometer"
+          }
+          Gyro {
+            name "gyro"
+          }
+          GPS {
+            name "gps"
+          }
+        ]
+      }
       DEF BODY Pose {
         translation 0 0 0.045
         rotation 0 0 1 0
