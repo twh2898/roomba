@@ -30,7 +30,7 @@ int main() {
     Roomba roomba(&robot);
     roomba.enable(TIME_STEP);
 
-    Telemetry telem(9870, "0.0.0.0");
+    Telemetry tel(9870, "0.0.0.0");
 
     Localizer local;
 
@@ -58,7 +58,7 @@ int main() {
         roomba.leftMotor->setVelocity(leftSpeed);
         roomba.rightMotor->setVelocity(rightSpeed);
 
-        telem.send(&roomba);
+        tel.send(&roomba);
     }
 
     return 0;
