@@ -36,7 +36,7 @@ PROTO Roomba [
             }
           }
           Accelerometer {
-            name "accelerometer"
+            name "accel"
           }
           Gyro {
             name "gyro"
