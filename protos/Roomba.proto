@@ -15,18 +15,6 @@ PROTO Roomba [
       Pose {
         translation 0 0 0.045
         children [
-          # Shape {
-          #   appearance PBRAppearance {
-          #     baseColor 0.5 0.5 0.5
-          #     roughness 1
-          #     metalness 0
-          #   }
-          #   geometry Cylinder {
-          #     height 0.07
-          #     radius 0.155
-          #     subdivision 24
-          #   }
-          # }
           CadShape {
             url "../robot.dae"
           }
