@@ -12,8 +12,29 @@ PROTO Roomba [
     rotation IS rotation
     children [
       Pose {
-        translation 0 0 0.0045
+        translation 0 0 0.045
         children [
+          # Shape {
+          #   appearance PBRAppearance {
+          #     baseColor 0.5 0.5 0.5
+          #     roughness 1
+          #     metalness 0
+          #   }
+          #   geometry Cylinder {
+          #     height 0.07
+          #     radius 0.155
+          #     subdivision 24
+          #   }
+          # }
+          CadShape {
+            url "../robot.dae"
+          }
+          TouchSensor {
+            name "bumper"
+            boundingObject Mesh {
+              url "../bumper.dae"
+            }
+          }
           Accelerometer {
             name "accelerometer"
           }
@@ -22,24 +43,6 @@ PROTO Roomba [
           }
           GPS {
             name "gps"
-          }
-        ]
-      }
-      DEF BODY Pose {
-        translation 0 0 0.045
-        rotation 0 0 1 0
-        children [
-          Shape {
-            appearance PBRAppearance {
-              baseColor 0.5 0.5 0.5
-              roughness 1
-              metalness 0
-            }
-            geometry Cylinder {
-              height 0.07
-              radius 0.155
-              subdivision 24
-            }
           }
         ]
       }
@@ -130,7 +133,16 @@ PROTO Roomba [
         }
       }
     ]
-    boundingObject USE BODY
+    boundingObject Pose {
+      translation 0 0 0.045
+      children [
+        Cylinder {
+          height 0.07
+          radius 0.155
+          subdivision 24
+        }
+      ]
+    }
     physics Physics {
       density -1
       mass 2.336
