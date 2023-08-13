@@ -43,13 +43,13 @@ namespace roomba {
             rightEncoder = robot->getPositionSensor("right wheel sensor");
         }
 
-        void enable(int timeStep) {
-            bumper->enable(timeStep);
-            accel->enable(timeStep);
-            gyro->enable(timeStep);
-            gps->enable(timeStep);
-            leftEncoder->enable(timeStep);
-            rightEncoder->enable(timeStep);
+        void enable(int samplingPeriod) {
+            bumper->enable(samplingPeriod);
+            accel->enable(samplingPeriod);
+            gyro->enable(samplingPeriod);
+            gps->enable(samplingPeriod);
+            leftEncoder->enable(samplingPeriod);
+            rightEncoder->enable(samplingPeriod);
         }
 
         void disable() {
