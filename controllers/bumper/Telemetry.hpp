@@ -18,6 +18,10 @@ namespace roomba {
     public:
         Telemetry(int udpPort, string udpAddress) : udp(udpPort, udpAddress) {}
 
+        void sendCustom(json data) {
+            udp.send_message(data.dump());
+        }
+
         void send(Roomba * roomba) {
             json motorData = {
                 {"left",
