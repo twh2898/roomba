@@ -7,7 +7,7 @@ using namespace webots;
 #include <vector>
 using namespace std;
 
-#define SPEED 3
+#define SPEED 10
 #define TIME_STEP 64
 
 int main() {
