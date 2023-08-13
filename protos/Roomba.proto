@@ -5,6 +5,7 @@ PROTO Roomba [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0
   field SFString   controller   "<generic>"
+  field SFFloat    wheelMaxVelocity 20
 ]
 {
   Robot {
@@ -54,6 +55,7 @@ PROTO Roomba [
         device [
           RotationalMotor {
             name "left wheel motor"
+            maxVelocity IS wheelMaxVelocity
           }
           PositionSensor {
             name "left wheel sensor"
@@ -91,6 +93,7 @@ PROTO Roomba [
         device [
           RotationalMotor {
             name "right wheel motor"
+            maxVelocity IS wheelMaxVelocity
           }
           PositionSensor {
             name "right wheel sensor"
