@@ -12,7 +12,7 @@ namespace roomba {
 
     public:
         MotionControl()
-            : speed(5), targetHeading(0), pid(1, -1, 10, 0.0000589, 64) {}
+            : speed(20), targetHeading(0), pid(1, -1, 4, 0.0000018, 64) {}
 
         void setTarget(double target) {
             targetHeading = target;
