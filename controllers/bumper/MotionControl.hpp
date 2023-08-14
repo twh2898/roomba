@@ -7,13 +7,13 @@
 namespace roomba {
     using webots::Motor;
 
-    class MC {
+    class MotionControl {
         Motor * left;
         Motor * right;
         Localizer & loc;
 
     public:
-        MC(Motor * left, Motor * right, Localizer & loc)
+        MotionControl(Motor * left, Motor * right, Localizer & loc)
             : left(left), right(right), loc(loc) {}
     };
 }

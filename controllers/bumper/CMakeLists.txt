@@ -5,7 +5,7 @@ add_executable(${TARGET}
     bumper.cpp
     json.hpp
     Localizer.hpp
-    MC.hpp
+    MotionControl.hpp
     PID.hpp
     Planning.hpp
     Roomba.hpp
