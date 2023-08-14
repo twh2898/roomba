@@ -6,6 +6,7 @@
 #include <webots/TouchSensor.hpp>
 using namespace webots;
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -52,7 +53,16 @@ int main() {
         local.update(&roomba);
 
         double yaw = roomba.imu->getRollPitchYaw()[2];
-        double twist = pid.calculate(TIME_STEP, target, yaw);
+
+        double e = target - roomba.imu->getRollPitchYaw()[2];
+        if (e < -M_PI)
+            e = -(e - M_PI);
+        else if (e > M_PI)
+            e = -(e - M_PI);
+
+        tel.sendCustom({{"e", -e}});
+
+        double twist = pid.calculate(TIME_STEP, 0, -e);
         tel.sendCustom({
             {"target", target},
             {"yaw", yaw},
