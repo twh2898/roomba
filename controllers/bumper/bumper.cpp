@@ -40,37 +40,41 @@ int main() {
     Telemetry tel(9870, "0.0.0.0");
 
     Localizer local;
+    MotionControl mc;
 
     auto mode = pidConfig["mode"];
 
-    auto twistConfig = pidConfig[mode];
-    const double speed = twistConfig["speed"];
-    PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
+    // auto twistConfig = pidConfig[mode];
+    // const double speed = twistConfig["speed"];
+    // PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
 
     double target = pidConfig["target"];
+    mc.setTarget(target);
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
 
-        double yaw = roomba.imu->getRollPitchYaw()[2];
+        mc.update(&roomba);
 
-        double e = target - roomba.imu->getRollPitchYaw()[2];
-        if (e < -M_PI)
-            e = -(e - M_PI);
-        else if (e > M_PI)
-            e = -(e - M_PI);
+        // double yaw = roomba.imu->getRollPitchYaw()[2];
 
-        tel.sendCustom({{"e", -e}});
+        // double e = target - roomba.imu->getRollPitchYaw()[2];
+        // if (e < -M_PI)
+        //     e = -(e - M_PI);
+        // else if (e > M_PI)
+        //     e = -(e - M_PI);
 
-        double twist = pid.calculate(TIME_STEP, 0, -e);
-        tel.sendCustom({
-            {"target", target},
-            {"yaw", yaw},
-            {"twist", twist},
-        });
+        // tel.sendCustom({{"e", -e}});
 
-        leftSpeed = -speed * twist;
-        rightSpeed = speed * twist;
+        // double twist = pid.calculate(TIME_STEP, 0, -e);
+        // tel.sendCustom({
+        //     {"target", target},
+        //     {"yaw", yaw},
+        //     {"twist", twist},
+        // });
+
+        // leftSpeed = -speed * twist;
+        // rightSpeed = speed * twist;
 
         // if (roomba.bumper->getValue() > 0)
         //     movementCounter = 15;
@@ -90,8 +94,8 @@ int main() {
         //     movementCounter--;
         // }
 
-        roomba.leftMotor->setVelocity(leftSpeed);
-        roomba.rightMotor->setVelocity(rightSpeed);
+        // roomba.leftMotor->setVelocity(leftSpeed);
+        // roomba.rightMotor->setVelocity(rightSpeed);
 
         tel.send(&roomba);
     }
