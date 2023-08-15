@@ -49,7 +49,9 @@ int main() {
     // PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
 
     double target = pidConfig["target"];
+    mc.setMode(MotionControl::HEADING);
     mc.setTarget(target);
+    mc.setDrive(pidConfig["drive"]);
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
@@ -98,6 +100,7 @@ int main() {
         // roomba.rightMotor->setVelocity(rightSpeed);
 
         tel.send(&roomba);
+        tel.send(&mc);
     }
 
     return 0;

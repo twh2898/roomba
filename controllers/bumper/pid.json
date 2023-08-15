@@ -1,5 +1,5 @@
 {
-    "mode": "high",
+    "mode": "low",
     "low": {
         "p": 10,
         "i": 0.0000589,
@@ -12,5 +12,6 @@
         "d": 64,
         "speed": 20
     },
-    "target": 1
+    "target": 1,
+    "drive": 0.5
 }

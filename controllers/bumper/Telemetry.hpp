@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "MotionControl.hpp"
 #include "Roomba.hpp"
 #include "json.hpp"
 #include "simple_cpp_sockets.h"
@@ -19,6 +20,19 @@ namespace roomba {
         Telemetry(int udpPort, string udpAddress) : udp(udpPort, udpAddress) {}
 
         void sendCustom(json data) {
+            udp.send_message(data.dump());
+        }
+
+        void send(MotionControl * mc) {
+            json data = {
+                {"mc",
+                 {
+                     {"target", mc->getTarget()},
+                     {"steer", mc->getSteer()},
+                     {"drive", mc->getDrive()},
+                     {"yaw", mc->currYaw},
+                 }},
+            };
             udp.send_message(data.dump());
         }
 
@@ -74,19 +88,6 @@ namespace roomba {
             json data = {
                 {"motor", motorData},
                 {"sensors", sensorData},
-                // {"local",
-                //  {
-                //      {"velocity",
-                //       {
-                //           {"x", local.velX},
-                //           {"y", local.velY},
-                //       }},
-                //      {"position",
-                //       {
-                //           {"x", local.posX},
-                //           {"y", local.posY},
-                //       }},
-                //  }},
                 {"time", roomba->robot->getTime()},
             };
             udp.send_message(data.dump());
