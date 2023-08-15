@@ -84,7 +84,12 @@ namespace roomba {
 
             if (mode == HEADING) {
                 double e = targetHeading - roomba->imu->getRollPitchYaw()[2];
-                double twist = pid.calculate(t, 0, -limit(e, -M_PI, M_PI));
+                if (e < -M_PI)
+                    e = -(e - M_PI);
+                else if (e > M_PI)
+                    e = -(e - M_PI);
+
+                double twist = pid.calculate(t, 0, -e);
                 setSteer(twist);
             }
 
