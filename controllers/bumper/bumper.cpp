@@ -55,7 +55,7 @@ int main() {
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
-        mc.update(&roomba);
+        mc.update(&roomba, &local);
 
         tel.send(&roomba);
         tel.send(&local);

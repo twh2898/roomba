@@ -48,6 +48,10 @@ namespace roomba {
             rightEncoder = robot->getPositionSensor("right wheel sensor");
         }
 
+        int getSamplingPeriod() {
+            return imu->getSamplingPeriod();
+        }
+
         void enable(int samplingPeriod) {
             bumper->enable(samplingPeriod);
             accel->enable(samplingPeriod);

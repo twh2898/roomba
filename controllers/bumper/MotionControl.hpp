@@ -2,6 +2,7 @@
 
 #include <cmath>
 
+#include "Localizer.hpp"
 #include "PID.hpp"
 #include "Roomba.hpp"
 #include "Telemetry.hpp"
@@ -73,15 +74,15 @@ namespace roomba {
             drive = limit(val, -1, 1);
         }
 
-        void update(Roomba * roomba) {
+        void update(Roomba * roomba, Localizer * local) {
             double leftSpeed = 0;
             double rightSpeed = 0;
 
-            auto t = roomba->imu->getSamplingPeriod();
-            double yaw = roomba->imu->getRollPitchYaw()[2];
+            auto t = roomba->getSamplingPeriod();
+            double yaw = local->heading;
 
             if (mode == HEADING) {
-                double e = targetHeading - roomba->imu->getRollPitchYaw()[2];
+                double e = targetHeading - yaw;
                 if (e < -M_PI)
                     e = -(e - M_PI);
                 else if (e > M_PI)
