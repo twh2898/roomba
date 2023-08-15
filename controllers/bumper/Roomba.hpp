@@ -72,7 +72,7 @@ namespace roomba {
             rightEncoder->disable();
         }
 
-        json getTelemetry() override {
+        json getTelemetry() const override {
             json motorData = {
                 {"left",
                  {

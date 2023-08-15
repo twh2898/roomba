@@ -99,7 +99,7 @@ namespace roomba {
             roomba->rightMotor->setVelocity(rightSpeed);
         }
 
-        json getTelemetry() override {
+        json getTelemetry() const override {
             return json {
                 {"mc",
                  {

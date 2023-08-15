@@ -13,7 +13,7 @@ namespace roomba {
 
     class TelemetrySender {
     public:
-        virtual json getTelemetry() = 0;
+        virtual json getTelemetry() const = 0;
     };
 
     class Telemetry {

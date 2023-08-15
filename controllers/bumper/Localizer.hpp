@@ -44,7 +44,7 @@ namespace roomba {
             // }
         }
 
-        json getTelemetry() override {
+        json getTelemetry() const override {
             return json {
                 {"loc",
                  {
