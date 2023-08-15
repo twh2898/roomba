@@ -42,7 +42,7 @@ namespace roomba {
               steer(0),
               drive(0) {}
 
-        Mode getMode() {
+        Mode getMode() const {
             return mode;
         }
 
@@ -50,7 +50,7 @@ namespace roomba {
             mode = val;
         }
 
-        double getTarget() {
+        double getTarget() const {
             return targetHeading;
         }
 
@@ -58,7 +58,7 @@ namespace roomba {
             targetHeading = target;
         }
 
-        double getSteer() {
+        double getSteer() const {
             return steer;
         }
 
@@ -66,7 +66,7 @@ namespace roomba {
             steer = limit(val, -1, 1);
         }
 
-        double getDrive() {
+        double getDrive() const {
             return drive;
         }
 
