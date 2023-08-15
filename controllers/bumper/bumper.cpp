@@ -55,49 +55,7 @@ int main() {
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
-
         mc.update(&roomba);
-
-        // double yaw = roomba.imu->getRollPitchYaw()[2];
-
-        // double e = target - roomba.imu->getRollPitchYaw()[2];
-        // if (e < -M_PI)
-        //     e = -(e - M_PI);
-        // else if (e > M_PI)
-        //     e = -(e - M_PI);
-
-        // tel.sendCustom({{"e", -e}});
-
-        // double twist = pid.calculate(TIME_STEP, 0, -e);
-        // tel.sendCustom({
-        //     {"target", target},
-        //     {"yaw", yaw},
-        //     {"twist", twist},
-        // });
-
-        // leftSpeed = -speed * twist;
-        // rightSpeed = speed * twist;
-
-        // if (roomba.bumper->getValue() > 0)
-        //     movementCounter = 15;
-
-        // if (movementCounter == 0) {
-        //     leftSpeed = SPEED;
-        //     rightSpeed = SPEED;
-        // }
-        // else if (movementCounter >= 7) {
-        //     leftSpeed = -SPEED;
-        //     rightSpeed = -SPEED;
-        //     movementCounter--;
-        // }
-        // else {
-        //     leftSpeed = -SPEED / 2;
-        //     rightSpeed = SPEED;
-        //     movementCounter--;
-        // }
-
-        // roomba.leftMotor->setVelocity(leftSpeed);
-        // roomba.rightMotor->setVelocity(rightSpeed);
 
         tel.send(&roomba);
         tel.send(&mc);
