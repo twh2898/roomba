@@ -26,7 +26,6 @@ namespace roomba {
     private:
         double speed;
         double targetHeading;
-        double yaw;
         PID pid;
         Mode mode;
 
@@ -37,7 +36,6 @@ namespace roomba {
         MotionControl(Mode mode = MANUAL)
             : speed(20),
               targetHeading(0),
-              yaw(0),
               pid(1, -1, 4, 0.0000018, 64),
               mode(mode),
               steer(0),
@@ -80,7 +78,7 @@ namespace roomba {
             double rightSpeed = 0;
 
             auto t = roomba->imu->getSamplingPeriod();
-            yaw = roomba->imu->getRollPitchYaw()[2];
+            double yaw = roomba->imu->getRollPitchYaw()[2];
 
             if (mode == HEADING) {
                 double e = targetHeading - roomba->imu->getRollPitchYaw()[2];
@@ -107,7 +105,6 @@ namespace roomba {
                      {"target", targetHeading},
                      {"steer", steer},
                      {"drive", drive},
-                     {"yaw", yaw},
                  }},
             };
         }
