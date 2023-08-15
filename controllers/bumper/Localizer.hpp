@@ -5,12 +5,13 @@
 #include <webots/Motor.hpp>
 
 #include "Roomba.hpp"
+#include "Telemetry.hpp"
 
 namespace roomba {
     using webots::Accelerometer;
     using webots::Motor;
 
-    class Localizer {
+    class Localizer : public TelemetrySender {
     public:
         double velX;
         double velY;
@@ -41,6 +42,25 @@ namespace roomba {
             //     velX = 0;
             //     velY = 0;
             // }
+        }
+
+        json getTelemetry() override {
+            return json {
+                {"loc",
+                 {
+                     {"heading", heading},
+                     {"pos",
+                      {
+                          {"x", posX},
+                          {"y", posY},
+                      }},
+                     {"vel",
+                      {
+                          {"x", velX},
+                          {"y", velY},
+                      }},
+                 }},
+            };
         }
     };
 }

@@ -58,6 +58,7 @@ int main() {
         mc.update(&roomba);
 
         tel.send(&roomba);
+        tel.send(&local);
         tel.send(&mc);
     }
 
