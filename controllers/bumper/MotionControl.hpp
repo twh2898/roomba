@@ -4,6 +4,7 @@
 
 #include "PID.hpp"
 #include "Roomba.hpp"
+#include "Telemetry.hpp"
 
 namespace roomba {
 
@@ -15,7 +16,7 @@ namespace roomba {
         return x;
     }
 
-    class MotionControl {
+    class MotionControl : public TelemetrySender {
     public:
         enum Mode {
             MANUAL,
@@ -25,6 +26,7 @@ namespace roomba {
     private:
         double speed;
         double targetHeading;
+        double yaw;
         PID pid;
         Mode mode;
 
@@ -35,12 +37,11 @@ namespace roomba {
         MotionControl(Mode mode = MANUAL)
             : speed(20),
               targetHeading(0),
+              yaw(0),
               pid(1, -1, 4, 0.0000018, 64),
               mode(mode),
               steer(0),
               drive(0) {}
-
-        double currYaw = 0;
 
         Mode getMode() {
             return mode;
@@ -78,19 +79,12 @@ namespace roomba {
             double leftSpeed = 0;
             double rightSpeed = 0;
 
+            auto t = roomba->imu->getSamplingPeriod();
+            yaw = roomba->imu->getRollPitchYaw()[2];
+
             if (mode == HEADING) {
-                auto t = roomba->imu->getSamplingPeriod();
-
-                double yaw = roomba->imu->getRollPitchYaw()[2];
-                currYaw = yaw;
-
                 double e = targetHeading - roomba->imu->getRollPitchYaw()[2];
-                if (e < -M_PI)
-                    e = -(e - M_PI);
-                else if (e > M_PI)
-                    e = -(e - M_PI);
-
-                double twist = pid.calculate(t, 0, -e);
+                double twist = pid.calculate(t, 0, -limit(e, -M_PI, M_PI));
                 setSteer(twist);
             }
 
@@ -99,6 +93,18 @@ namespace roomba {
 
             roomba->leftMotor->setVelocity(leftSpeed);
             roomba->rightMotor->setVelocity(rightSpeed);
+        }
+
+        json getTelemetry() override {
+            return json {
+                {"mc",
+                 {
+                     {"target", targetHeading},
+                     {"steer", steer},
+                     {"drive", drive},
+                     {"yaw", yaw},
+                 }},
+            };
         }
     };
 }

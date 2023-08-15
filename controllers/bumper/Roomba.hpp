@@ -9,10 +9,12 @@
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
 
+#include "Telemetry.hpp"
+
 namespace roomba {
     using namespace webots;
 
-    class Roomba {
+    class Roomba : public TelemetrySender {
     public:
         Robot * robot;
         Motor * leftMotor;
@@ -65,6 +67,61 @@ namespace roomba {
             leftEncoder->disable();
             rightEncoder->disable();
         }
-    };
 
+        json getTelemetry() override {
+            json motorData = {
+                {"left",
+                 {
+                     {"velocity", leftMotor->getVelocity()},
+                     {"position", leftEncoder->getValue()},
+                 }},
+                {"right",
+                 {
+                     {"velocity", rightMotor->getVelocity()},
+                     {"position", rightEncoder->getValue()},
+                 }},
+            };
+
+            auto * accelV = accel->getValues();
+            json accelData = {
+                {"x", accelV[0]},
+                {"y", accelV[1]},
+                {"z", accelV[2]},
+            };
+
+            auto * gyroV = gyro->getValues();
+            json gyroData = {
+                {"x", gyroV[0]},
+                {"y", gyroV[1]},
+                {"z", gyroV[2]},
+            };
+
+            auto * gpsV = gps->getValues();
+            json gpsData = {
+                {"x", gpsV[0]},
+                {"y", gpsV[1]},
+                {"z", gpsV[2]},
+            };
+
+            auto * imuV = imu->getRollPitchYaw();
+            json imuData = {
+                {"x", imuV[0]},
+                {"y", imuV[1]},
+                {"z", imuV[2]},
+            };
+
+            json sensorData = {
+                {"accel", accelData},
+                {"gyro", gyroData},
+                {"gps", gpsData},
+                {"imu", imuData},
+            };
+
+            return json {
+                {"motor", motorData},
+                {"sensors", sensorData},
+                {"time", robot->getTime()},
+            };
+        }
+    };
 }
