@@ -16,25 +16,31 @@ namespace roomba {
         double velY;
         double posX;
         double posY;
+        double heading;
 
     public:
-        Localizer() : velX(0), velY(0), posX(0), posY(0) {}
+        Localizer() : velX(0), velY(0), posX(0), posY(0), heading(0) {}
 
         void update(Roomba * roomba) {
-            auto t = roomba->gyro->getSamplingPeriod();
-            auto * values = roomba->gyro->getValues();
-            double dx = values[0] * t;
-            double dy = values[1] * t;
+            // auto t = roomba->gyro->getSamplingPeriod();
+            // auto * values = roomba->gyro->getValues();
+            // double dx = values[0] * t;
+            // double dy = values[1] * t;
 
-            velX += dx;
-            velY += dy;
+            // velX += dx;
+            // velY += dy;
 
-            if (roomba->leftMotor->getVelocity() == 0
-                && roomba->rightMotor->getVelocity() == 0) {
-                // std::cout << "Velocity 0" << std::endl;
-                velX = 0;
-                velY = 0;
-            }
+            heading = roomba->imu->getRollPitchYaw()[2];
+
+            auto * gpsV = roomba->gps->getValues();
+            posX = gpsV[0];
+            posY = gpsV[1];
+
+            // if (roomba->leftMotor->getVelocity() == 0
+            //     && roomba->rightMotor->getVelocity() == 0) {
+            //     velX = 0;
+            //     velY = 0;
+            // }
         }
     };
 }
