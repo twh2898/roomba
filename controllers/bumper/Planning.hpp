@@ -19,6 +19,11 @@ namespace roomba {
     };
 
     class PathPlanning : public TelemetrySender {
+        enum Mode {
+            FOLLOW,
+            TURN,
+        } mode;
+
         XY target;
         double zoneSize;
 
@@ -29,11 +34,12 @@ namespace roomba {
 
     public:
         PathPlanning(double x = 1, double y = 1, double zoneSize = 1)
-            : target(x, y), zoneSize(zoneSize), index(0) {}
+            : target(x, y), zoneSize(zoneSize), index(0), mode(TURN) {}
 
         void setPath(vector<XY> & newPath) {
             path = newPath;
             index = 1;
+            mode = TURN;
             setTarget(path[0]);
         }
 
@@ -58,10 +64,20 @@ namespace roomba {
             double dy = target.y - local->posY;
             dist = abs(sqrt(dx * dx + dy * dy));
 
-            if (dist < zoneSize) {
+            double heading = atan2(dy, dx);
+            mc->setTarget(heading);
+
+            if (mode == TURN) {
+                mc->setDrive(0);
+                if (roomba->stopped())
+                    mode = FOLLOW;
+                return;
+            }
+            else if (dist < zoneSize) {
                 if (index < path.size()) {
                     std::cout << "In zone " << index << std::endl;
                     setTarget(path[index++]);
+                    mode = TURN;
                 }
                 else {
                     mc->setDrive(0);
@@ -69,8 +85,6 @@ namespace roomba {
                 return;
             }
 
-            double heading = atan2(dy, dx);
-            mc->setTarget(heading);
             mc->setDrive(1.0);
         }
 

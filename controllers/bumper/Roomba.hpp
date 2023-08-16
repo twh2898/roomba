@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <webots/Accelerometer.hpp>
 #include <webots/GPS.hpp>
 #include <webots/Gyro.hpp>
@@ -46,6 +47,11 @@ namespace roomba {
 
             leftEncoder = robot->getPositionSensor("left wheel sensor");
             rightEncoder = robot->getPositionSensor("right wheel sensor");
+        }
+
+        bool stopped() const {
+            return abs(leftMotor->getVelocity()) < 0.01
+                   && abs(rightMotor->getVelocity()) < 0.01;
         }
 
         int getSamplingPeriod() const {
