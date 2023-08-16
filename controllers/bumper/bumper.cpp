@@ -40,25 +40,38 @@ int main() {
     Telemetry tel(9870, "0.0.0.0");
 
     Localizer local;
+    PathPlanning planner;
     MotionControl mc;
 
     auto mode = pidConfig["mode"];
+
+
+    vector<XY> path;
+    for (auto xy : pidConfig["path"]) {
+        path.emplace_back(xy["x"], xy["y"]);
+    }
 
     // auto twistConfig = pidConfig[mode];
     // const double speed = twistConfig["speed"];
     // PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
 
-    double target = pidConfig["target"];
+    auto target = pidConfig["target"];
     mc.setMode(MotionControl::HEADING);
-    mc.setTarget(target);
-    mc.setDrive(pidConfig["drive"]);
+    // mc.setTarget(target["heading"]);
+    // mc.setDrive(pidConfig["drive"]);
+
+    planner.setZoneSize(target["size"]);
+    // planner.setTarget(target["x"], target["y"]);
+    planner.setPath(path);
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
+        planner.update(&roomba, &local, &mc);
         mc.update(&roomba, &local);
 
         tel.send(&roomba);
         tel.send(&local);
+        tel.send(&planner);
         tel.send(&mc);
     }
 
