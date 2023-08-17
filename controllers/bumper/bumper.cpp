@@ -25,10 +25,10 @@ using namespace roomba;
 #define TIME_STEP 64
 
 int main() {
-    fstream f("pid.json");
-    json pidConfig = json::parse(f);
+    fstream f("config.json");
+    json config = json::parse(f);
 
-    cout << "PID config " << pidConfig.dump() << endl;
+    cout << "Config " << config.dump() << endl;
 
     int movementCounter = 0;
     int leftSpeed, rightSpeed;
@@ -39,26 +39,23 @@ int main() {
 
     Telemetry tel(9870, "0.0.0.0");
 
+    auto mode = config["pid"]["mode"];
+    auto pidConfig = config["pid"][mode];
+    PID pid(1, -1, pidConfig["p"], pidConfig["i"], pidConfig["d"]);
+
     Localizer local;
     PathPlanning planner;
-    MotionControl mc;
-
-    auto mode = pidConfig["mode"];
-
+    MotionControl mc(pid, MotionControl::HEADING);
+    mc.setSpeed(pidConfig["speed"]);
 
     vector<XY> path;
-    for (auto xy : pidConfig["path"]) {
+    for (auto xy : config["path"]) {
         path.emplace_back(xy["x"], xy["y"]);
     }
 
-    // auto twistConfig = pidConfig[mode];
-    // const double speed = twistConfig["speed"];
-    // PID pid(1, -1, twistConfig["p"], twistConfig["i"], twistConfig["d"]);
-
-    auto target = pidConfig["target"];
-    mc.setMode(MotionControl::HEADING);
+    auto target = config["target"];
     // mc.setTarget(target["heading"]);
-    // mc.setDrive(pidConfig["drive"]);
+    // mc.setDrive(config["drive"]);
 
     planner.setZoneSize(target["size"]);
     // planner.setTarget(target["x"], target["y"]);

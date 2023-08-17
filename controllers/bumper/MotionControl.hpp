@@ -34,13 +34,8 @@ namespace roomba {
         double drive;
 
     public:
-        MotionControl(Mode mode = MANUAL)
-            : speed(20),
-              targetHeading(0),
-              pid(1, -1, 4, 0.0000018, 64),
-              mode(mode),
-              steer(0),
-              drive(0) {}
+        MotionControl(PID pid, Mode mode = MANUAL)
+            : speed(20), targetHeading(0), pid(pid), mode(mode), steer(0), drive(0) {}
 
         Mode getMode() const {
             return mode;
@@ -50,12 +45,20 @@ namespace roomba {
             mode = val;
         }
 
+        double getSpeed() const {
+            return speed;
+        }
+
+        void setSpeed(double val) {
+            speed = val;
+        }
+
         double getTarget() const {
             return targetHeading;
         }
 
-        void setTarget(double target) {
-            targetHeading = target;
+        void setTarget(double val) {
+            targetHeading = val;
         }
 
         double getSteer() const {
