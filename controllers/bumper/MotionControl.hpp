@@ -66,7 +66,8 @@ namespace roomba {
         }
 
         void setSteer(double val) {
-            steer = limit(val, -1, 1);
+            // steer = limit(val, -1, 1);
+            steer = val;
         }
 
         double getDrive() const {
@@ -82,6 +83,7 @@ namespace roomba {
             double rightSpeed = 0;
 
             auto t = roomba->getSamplingPeriod();
+            double dt = t / 1000.0;
             double yaw = local->heading;
 
             if (mode == HEADING) {
@@ -91,7 +93,7 @@ namespace roomba {
                 else if (e > M_PI)
                     e = -(e - M_PI);
 
-                double twist = pid.calculate(t, 0, -e);
+                double twist = pid.calculate(dt, 0, -e);
                 setSteer(twist);
             }
 
