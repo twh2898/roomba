@@ -50,8 +50,8 @@ namespace roomba {
         }
 
         bool stopped() const {
-            return abs(leftMotor->getVelocity()) < 0.01
-                   && abs(rightMotor->getVelocity()) < 0.01;
+            return abs(leftMotor->getVelocity()) < 0.05
+                   && abs(rightMotor->getVelocity()) < 0.05;
         }
 
         int getSamplingPeriod() const {
