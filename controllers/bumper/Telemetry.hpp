@@ -6,7 +6,6 @@
 #include "simple_cpp_sockets.h"
 
 namespace roomba {
-    using namespace webots;
     using json = nlohmann::json;
 
     using std::string;
