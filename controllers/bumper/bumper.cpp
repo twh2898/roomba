@@ -57,13 +57,13 @@ int main() {
     mc.setTarget(target["heading"]);
     // mc.setDrive(config["drive"]);
 
-    // planner.setZoneSize(target["size"]);
+    planner.setZoneSize(target["size"]);
     // planner.setTarget(target["x"], target["y"]);
-    // planner.setPath(path);
+    planner.setPath(path);
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
-        // planner.update(&roomba, &local, &mc);
+        planner.update(&roomba, &local, &mc);
         mc.update(&roomba, &local);
 
         tel.send(&roomba);
