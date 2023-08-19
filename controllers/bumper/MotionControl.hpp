@@ -111,6 +111,7 @@ namespace roomba {
                      {"target", targetHeading},
                      {"steer", steer},
                      {"drive", drive},
+                     {"pid", pid.getTelemetry()},
                  }},
             };
         }

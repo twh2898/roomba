@@ -41,7 +41,7 @@ int main() {
 
     auto mode = config["pid"]["mode"];
     auto pidConfig = config["pid"][mode];
-    PID pid(1, -1, pidConfig["p"], pidConfig["i"], pidConfig["d"]);
+    PID pid(-1, 1, pidConfig["p"], pidConfig["i"], pidConfig["d"]);
 
     Localizer local;
     PathPlanning planner;

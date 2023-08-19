@@ -24,10 +24,12 @@
 
 #include <exception>
 
+#include "Telemetry.hpp"
+
 namespace roomba {
     using std::runtime_error;
 
-    class PID {
+    class PID : public TelemetrySender {
         double max;
         double min;
         double Kp;
@@ -38,15 +40,18 @@ namespace roomba {
 
     public:
         /**
-         * @param max maximum value of manipulated variable
          * @param min minimum value of manipulated variable
+         * @param max maximum value of manipulated variable
          * @param Kp proportional gain
          * @param Ki Integral gain
          * @param Kd derivative gain
          */
-        PID(double max, double min, double Kp, double Ki, double Kd)
-            : max(max), min(min), Kp(Kp), Ki(Ki), Kd(Kd), preError(0), integral(0) {}
+        PID(double min, double max, double Kp, double Ki, double Kd)
+            : min(min), max(max), Kp(Kp), Ki(Ki), Kd(Kd), preError(0), integral(0) {}
 
+        /**
+         * Reset the previousError and integral to 0.
+         */
         void reset() {
             preError = 0;
             integral = 0;
@@ -87,6 +92,13 @@ namespace roomba {
             preError = error;
 
             return output;
+        }
+
+        json getTelemetry() const override {
+            return json {
+                {"integral", integral},
+                {"preError", preError},
+            };
         }
     };
 }
