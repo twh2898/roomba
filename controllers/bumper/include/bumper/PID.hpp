@@ -22,13 +22,9 @@
  * THE SOFTWARE.
  */
 
-#include <exception>
-
 #include "Telemetry.hpp"
 
 namespace roomba {
-    using std::runtime_error;
-
     class PID : public TelemetrySender {
         double max;
         double min;
@@ -46,16 +42,12 @@ namespace roomba {
          * @param Ki Integral gain
          * @param Kd derivative gain
          */
-        PID(double min, double max, double Kp, double Ki, double Kd)
-            : min(min), max(max), Kp(Kp), Ki(Ki), Kd(Kd), preError(0), integral(0) {}
+        PID(double min, double max, double Kp, double Ki, double Kd);
 
         /**
          * Reset the previousError and integral to 0.
          */
-        void reset() {
-            preError = 0;
-            integral = 0;
-        }
+        void reset();
 
         /**
          * Returns the manipulated variable given a setPoint and current
@@ -64,41 +56,11 @@ namespace roomba {
          * @param dt loop interval time
          * @param setPoint target value
          * @param processValue current value
+         *
+         * @throw std::runtime_error if dt <= 0.0
          */
-        double calculate(double dt, double setPoint, double processValue) {
-            if (dt <= 0.0)
-                throw runtime_error("dt must be greater than 0");
+        double calculate(double dt, double setPoint, double processValue);
 
-            double error = setPoint - processValue;
-
-            // Proportional term
-            double Pout = Kp * error;
-
-            // Integral term
-            integral += error * dt;
-            double Iout = Ki * integral;
-
-            // Derivative term
-            double derivative = (error - preError) / dt;
-            double Dout = Kd * derivative;
-
-            double output = Pout + Iout + Dout;
-
-            if (output > max)
-                output = max;
-            else if (output < min)
-                output = min;
-
-            preError = error;
-
-            return output;
-        }
-
-        json getTelemetry() const override {
-            return json {
-                {"integral", integral},
-                {"preError", preError},
-            };
-        }
+        json getTelemetry() const override;
     };
 }

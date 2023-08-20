@@ -1,17 +1,34 @@
 
 set(TARGET bumper)
 
-add_executable(${TARGET}
-    bumper.cpp
-    json.hpp
+set(HEADER_LIST
     Localizer.hpp
     MotionControl.hpp
     PID.hpp
     Planning.hpp
     Roomba.hpp
-    simple_cpp_sockets.h
     Telemetry.hpp
 )
+list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
+
+set(SOURCE_LIST
+    bumper.cpp
+    Localizer.cpp
+    MotionControl.cpp
+    PID.cpp
+    Planning.cpp
+    Roomba.cpp
+    Telemetry.cpp
+)
+list(TRANSFORM SOURCE_LIST PREPEND "src/")
+
+add_executable(${TARGET}
+    ${SOURCE_LIST}
+    ${HEADER_LIST}
+    include/json.hpp
+)
+
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(${TARGET}
     spdlog::spdlog

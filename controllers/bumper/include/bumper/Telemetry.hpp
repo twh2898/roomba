@@ -1,9 +1,10 @@
 #pragma once
 
+#include <arpa/inet.h>
+
 #include <string>
 
 #include "json.hpp"
-#include "simple_cpp_sockets.h"
 
 namespace roomba {
     using json = nlohmann::json;
@@ -27,7 +28,8 @@ namespace roomba {
      * @brief UDP Telemetry Broadcaster.
      */
     class Telemetry {
-        UDPClient udp;
+        int m_socket;
+        sockaddr_in m_addr;
 
     public:
         /**
@@ -35,25 +37,23 @@ namespace roomba {
          *
          * @param udpPort the UDP telemetry port
          * @param udpAddress the UDP telemetry network address
+         *
+         * @throw std::runtime_error
          */
-        Telemetry(int udpPort, string udpAddress) : udp(udpPort, udpAddress) {}
+        Telemetry(int udpPort, string udpAddress);
 
         /**
          * @brief Send arbitrary telemetry data
          *
          * @param data json telemetry object
          */
-        void send(json data) {
-            udp.send_message(data.dump());
-        }
+        void send(json data);
 
         /**
          * @brief Send telemetry from a TelemetrySender via getTelemetry().
          *
          * @param sender the TelemetrySender
          */
-        void send(TelemetrySender * sender) {
-            send(sender->getTelemetry());
-        }
+        void send(TelemetrySender * sender);
     };
 }

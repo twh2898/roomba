@@ -17,12 +17,12 @@ using namespace std;
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-#include "Localizer.hpp"
-#include "MotionControl.hpp"
-#include "PID.hpp"
-#include "Planning.hpp"
-#include "Roomba.hpp"
-#include "Telemetry.hpp"
+#include "bumper/Localizer.hpp"
+#include "bumper/MotionControl.hpp"
+#include "bumper/PID.hpp"
+#include "bumper/Planning.hpp"
+#include "bumper/Roomba.hpp"
+#include "bumper/Telemetry.hpp"
 
 using namespace roomba;
 

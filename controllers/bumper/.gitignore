@@ -1,2 +1,3 @@
 build/
 bumper
+!include/bumper/
