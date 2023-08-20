@@ -77,6 +77,8 @@ int main() {
     // planner.setTarget(target["x"], target["y"]);
     planner.setPath(path);
 
+    spdlog::debug("Initialization complete");
+
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
         planner.update(&roomba, &local, &mc);
