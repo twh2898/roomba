@@ -6,10 +6,27 @@ namespace roomba {
     using std::runtime_error;
 
     PID::PID(double min, double max, double Kp, double Ki, double Kd)
-        : min(min), max(max), Kp(Kp), Ki(Ki), Kd(Kd), preError(0), integral(0) {}
+        : min(min),
+          max(max),
+          useRange(true),
+          Kp(Kp),
+          Ki(Ki),
+          Kd(Kd),
+          lastError(0),
+          integral(0) {}
+
+    PID::PID(double Kp, double Ki, double Kd)
+        : min(0),
+          max(0),
+          useRange(false),
+          Kp(Kp),
+          Ki(Ki),
+          Kd(Kd),
+          lastError(0),
+          integral(0) {}
 
     void PID::reset() {
-        preError = 0;
+        lastError = 0;
         integral = 0;
     }
 
@@ -18,26 +35,21 @@ namespace roomba {
             throw runtime_error("dt must be greater than 0");
 
         double error = setPoint - processValue;
-
-        // Proportional term
-        double Pout = Kp * error;
-
-        // Integral term
         integral += error * dt;
-        double Iout = Ki * integral;
 
-        // Derivative term
-        double derivative = (error - preError) / dt;
-        double Dout = Kd * derivative;
+        double P = Kp * error;
+        double I = Ki * integral;
+        double D = Kd * (error - lastError) / dt;
 
-        double output = Pout + Iout + Dout;
+        lastError = error;
+        double output = P + I + D;
 
-        if (output > max)
-            output = max;
-        else if (output < min)
-            output = min;
-
-        preError = error;
+        if (useRange) {
+            if (output > max)
+                output = max;
+            else if (output < min)
+                output = min;
+        }
 
         return output;
     }
@@ -45,7 +57,7 @@ namespace roomba {
     json PID::getTelemetry() const {
         return json {
             {"integral", integral},
-            {"preError", preError},
+            {"lastError", lastError},
         };
     }
 }
