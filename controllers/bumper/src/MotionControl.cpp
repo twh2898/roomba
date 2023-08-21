@@ -78,6 +78,7 @@ namespace roomba {
         return json {
             {"mc",
              {
+                 {"mode", (mode == MANUAL ? 0 : 1)},
                  {"target", targetHeading},
                  {"steer", steer},
                  {"drive", drive},
