@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "bumper/log.hpp"
+
 namespace roomba {
     using std::abs;
     using std::sqrt;
@@ -43,12 +45,15 @@ namespace roomba {
 
         if (mode == TURN) {
             mc->setDrive(0);
-            if (roomba->stopped())
+            if (roomba->stopped()) {
+                Logging::Core->debug("Planning mode switch to FOLLOW");
                 mode = FOLLOW;
+            }
             return;
         }
         else if (dist < zoneSize) {
             if (index < path.size()) {
+                Logging::Core->debug("Planning mode switch to TURN");
                 setTarget(path[index++]);
                 mode = TURN;
             }
