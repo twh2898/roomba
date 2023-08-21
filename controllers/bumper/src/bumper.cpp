@@ -23,27 +23,27 @@ using namespace std;
 #include "bumper/Planning.hpp"
 #include "bumper/Roomba.hpp"
 #include "bumper/Telemetry.hpp"
+#include "bumper/log.hpp"
 
 using namespace roomba;
 
 #define TIME_STEP 64
 
+namespace roomba::Logging {
+    Logger::Ptr Core;
+}
+
 int main() {
-    vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(make_shared<spdlog::sinks::stdout_color_sink_mt>());
-    sinks.push_back(make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt"));
-    auto combined_logger =
-        make_shared<spdlog::logger>("bumper", begin(sinks), end(sinks));
-    spdlog::set_default_logger(combined_logger);
-    spdlog::set_level(spdlog::level::debug);
-    spdlog::info("Logging enabled");
+    Logging::Core = make_shared<Logging::Logger>("Roomba");
+    Logging::Core->setLevel(Logging::Logger::Debug);
+    Logging::Core->debug("Logging enabled");
 
     fstream f("config.json");
     json config = json::parse(f);
 
     {
         string c = config.dump();
-        spdlog::debug("Config: {}", c);
+        Logging::Core->debug("Config: {}", c);
     }
 
     int movementCounter = 0;
@@ -77,7 +77,7 @@ int main() {
     // planner.setTarget(target["x"], target["y"]);
     planner.setPath(path);
 
-    spdlog::debug("Initialization complete");
+    Logging::Core->debug("Initialization complete");
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);

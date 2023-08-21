@@ -3,6 +3,7 @@ set(TARGET bumper)
 
 set(HEADER_LIST
     Localizer.hpp
+    log.hpp
     MotionControl.hpp
     PID.hpp
     Planning.hpp
