@@ -55,6 +55,8 @@ int main() {
 
     Telemetry tel(9870, "0.0.0.0");
 
+    bool tuneMode = config["tuneMode"];
+
     auto mode = config["pid"]["mode"];
     auto pidConfig = config["pid"][mode];
     PID pid(-1, 1, pidConfig["p"], pidConfig["i"], pidConfig["d"]);
@@ -70,18 +72,22 @@ int main() {
     }
 
     auto target = config["target"];
-    mc.setTarget(target["heading"]);
-    // mc.setDrive(config["drive"]);
 
-    planner.setZoneSize(target["size"]);
-    // planner.setTarget(target["x"], target["y"]);
-    planner.setPath(path);
+    if (tuneMode) {
+        mc.setTarget(target["heading"]);
+        mc.setDrive(config["drive"]);
+    }
+    else {
+        planner.setZoneSize(target["size"]);
+        planner.setPath(path);
+    }
 
     Logging::Core->debug("Initialization complete");
 
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
-        planner.update(&roomba, &local, &mc);
+        if (!tuneMode)
+            planner.update(&roomba, &local, &mc);
         mc.update(&roomba, &local);
 
         tel.send(&roomba);
