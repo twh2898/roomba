@@ -22,19 +22,19 @@
         "dev": {
             "p": 7,
             "i": 0.01,
-            "d": 0.2,
+            "d": 0.1,
             "speed": 10
         }
     },
-    "tuneMode": true,
+    "tuneMode": false,
     "target": {
         "heading": 1,
         "size": 0.05
     },
     "path": [
         {
-            "x": -0.8,
-            "y": -0.8
+            "x": -0.82,
+            "y": -0.76
         },
         {
             "x": -1.3,
