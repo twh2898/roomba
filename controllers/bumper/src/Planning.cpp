@@ -45,7 +45,7 @@ namespace roomba {
 
         if (mode == TURN) {
             mc->setDrive(0);
-            if (roomba->stopped()) {
+            if (abs(local->heading - heading) < 0.01) {
                 Logging::Core->debug("Planning mode switch to FOLLOW");
                 mode = FOLLOW;
             }
