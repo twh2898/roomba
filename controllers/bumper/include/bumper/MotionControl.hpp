@@ -18,14 +18,14 @@ namespace roomba {
     private:
         double speed;
         double targetHeading;
-        PID pid;
+        PID steerPID;
         Mode mode;
 
         double steer;
         double drive;
 
     public:
-        MotionControl(PID pid, Mode mode = MANUAL);
+        MotionControl(PID steerPID, Mode mode = MANUAL);
 
         Mode getMode() const;
 

@@ -5,8 +5,8 @@
 namespace roomba {
     using std::clamp;
 
-    MotionControl::MotionControl(PID pid, Mode mode)
-        : speed(20), targetHeading(0), pid(pid), mode(mode), steer(0), drive(0) {}
+    MotionControl::MotionControl(PID steerPID, Mode mode)
+        : speed(20), targetHeading(0), steerPID(steerPID), mode(mode), steer(0), drive(0) {}
 
     MotionControl::Mode MotionControl::getMode() const {
         return mode;
@@ -63,7 +63,7 @@ namespace roomba {
             else if (e > M_PI)
                 e = -(e - M_PI);
 
-            double twist = pid.calculate(dt, 0, -e);
+            double twist = steerPID.calculate(dt, 0, -e);
             setSteer(twist);
         }
 
@@ -82,7 +82,7 @@ namespace roomba {
                  {"target", targetHeading},
                  {"steer", steer},
                  {"drive", drive},
-                 {"pid", pid.getTelemetry()},
+                 {"pid", steerPID.getTelemetry()},
              }},
         };
     }
