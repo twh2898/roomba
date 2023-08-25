@@ -50,6 +50,10 @@ namespace roomba {
         rightEncoder->disable();
     }
 
+    double Roomba::dt() const {
+        return (double)getSamplingPeriod() / 1000.0;
+    }
+
     json Roomba::getTelemetry() const {
         json motorData = {
             {"left",
@@ -93,6 +97,7 @@ namespace roomba {
         };
 
         json sensorData = {
+            {"bumper", bumper->getValue()},
             {"accel", accelData},
             {"gyro", gyroData},
             {"gps", gpsData},

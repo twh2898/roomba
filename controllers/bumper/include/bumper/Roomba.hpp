@@ -17,6 +17,9 @@ namespace roomba {
 
     class Roomba : public TelemetrySender {
     public:
+        const float radius = 0.155;
+
+    public:
         Robot * robot;
         Motor * leftMotor;
         Motor * rightMotor;
@@ -38,6 +41,8 @@ namespace roomba {
         void enable(int samplingPeriod);
 
         void disable();
+
+        double dt() const;
 
         json getTelemetry() const override;
     };
