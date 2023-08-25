@@ -6,7 +6,12 @@ namespace roomba {
     using std::clamp;
 
     MotionControl::MotionControl(PID steerPID, Mode mode)
-        : speed(20), targetHeading(0), steerPID(steerPID), mode(mode), steer(0), drive(0) {}
+        : speed(20),
+          targetHeading(0),
+          steerPID(steerPID),
+          mode(mode),
+          steer(0),
+          drive(0) {}
 
     MotionControl::Mode MotionControl::getMode() const {
         return mode;
@@ -29,6 +34,8 @@ namespace roomba {
     }
 
     void MotionControl::setTarget(double val) {
+        while (val > M_PI) val -= M_PI;
+        while (val < -M_PI) val += M_PI;
         targetHeading = val;
     }
 
