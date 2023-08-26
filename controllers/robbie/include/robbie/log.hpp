@@ -197,4 +197,5 @@ namespace robbie::Logging {
     };
 
     extern Logger::Ptr Core;
+    extern Logger::Ptr Planning;
 }

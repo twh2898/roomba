@@ -31,12 +31,15 @@ using namespace robbie;
 
 namespace robbie::Logging {
     Logger::Ptr Core;
+    Logger::Ptr Planning;
 }
 
 int main() {
-    Logging::Core = make_shared<Logging::Logger>("Roomba");
-    Logging::Core->setLevel(Logging::Logger::Debug);
+    spdlog::set_level(spdlog::level::debug);
+    Logging::Core = make_shared<Logging::Logger>("Core");
     Logging::Core->debug("Logging enabled");
+
+    Logging::Planning = make_shared<Logging::Logger>("Planning");
 
     fstream f("config.json");
     json config = json::parse(f);

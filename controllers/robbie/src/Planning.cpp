@@ -40,28 +40,30 @@ namespace robbie {
     }
 
     void PathPlanning::startUndock() {
-        Logging::Core->debug("Planning mode switched to UNDOCK");
+        Logging::Planning->debug("Planning mode switched to UNDOCK");
         mode = UNDOCK;
         reverseTime = 2.0;
     }
 
     void PathPlanning::startReverse() {
-        Logging::Core->debug("Planning mode switch to REVERSE");
+        Logging::Planning->debug("Planning mode switch to REVERSE");
         mode = REVERSE;
         reverseTime = 1.0;
     }
 
     void PathPlanning::startReverseTurn() {
-        Logging::Core->debug("Planning mode switch to REVERSE_TURN");
+        Logging::Planning->debug("Planning mode switch to REVERSE_TURN");
         mode = REVERSE_TURN;
     }
 
     void PathPlanning::startGridSearch() {
-        Logging::Core->debug("Planning mode switch to GRID_SEARCH");
+        Logging::Planning->debug("Planning mode switch to GRID_SEARCH");
         mode = GRID_SEARCH;
     }
 
-    void PathPlanning::update(Platform * roomba, Localizer * local, MotionControl * mc) {
+    void PathPlanning::update(Platform * roomba,
+                              Localizer * local,
+                              MotionControl * mc) {
         double dt = roomba->dt();
 
         if (mode == GRID_SEARCH) {
@@ -112,14 +114,14 @@ namespace robbie {
         if (mode == TURN) {
             mc->setDrive(0);
             if (abs(local->heading - heading) < 0.01) {
-                Logging::Core->debug("Planning mode switch to FOLLOW");
+                Logging::Planning->debug("Planning mode switch to FOLLOW");
                 mode = FOLLOW;
             }
             return;
         }
         else if (dist < zoneSize) {
             if (index < path.size()) {
-                Logging::Core->debug("Planning mode switch to TURN");
+                Logging::Planning->debug("Planning mode switch to TURN");
                 setTarget(path[index++]);
                 mode = TURN;
             }
