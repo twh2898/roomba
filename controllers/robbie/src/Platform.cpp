@@ -21,11 +21,6 @@ namespace robbie {
         rightEncoder = robot.getPositionSensor("right wheel sensor");
     }
 
-    bool Platform::stopped() const {
-        return abs(leftMotor->getVelocity()) < 0.05
-               && abs(rightMotor->getVelocity()) < 0.05;
-    }
-
     void Platform::step(int duration) {
         robot.step(duration);
         lastStep = duration;

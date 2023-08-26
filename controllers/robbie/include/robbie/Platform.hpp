@@ -36,8 +36,6 @@ namespace robbie {
     public:
         Platform();
 
-        bool stopped() const;
-
         void step(int duration);
 
         int getSamplingPeriod() const;
