@@ -12,11 +12,13 @@ namespace roomba {
 
     class PathPlanning : public TelemetrySender {
         enum Mode {
-            FOLLOW,
+            FOLLOW = 0,
             TURN,
             GRID_SEARCH,
             REVERSE,
             REVERSE_TURN,
+            UNDOCK,
+            UNDOCK_TURN,
         } mode;
 
         XY target;
@@ -42,9 +44,13 @@ namespace roomba {
 
         void setTarget(XY newTarget);
 
+        void startUndock();
+
         void startReverse();
 
         void startReverseTurn();
+
+        void startGridSearch();
 
         void update(Roomba * roomba, Localizer * local, MotionControl * mc);
 

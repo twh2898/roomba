@@ -7,6 +7,7 @@ namespace roomba {
 
     MotionControl::MotionControl(PID steerPID, Mode mode)
         : speed(20),
+          heading(0),
           targetHeading(0),
           steerPID(steerPID),
           mode(mode),
@@ -55,16 +56,20 @@ namespace roomba {
         drive = clamp(val, -1.0, 1.0);
     }
 
+    double MotionControl::headingDiff() const {
+        return targetHeading - heading;
+    }
+
     void MotionControl::update(Roomba * roomba, Localizer * local) {
         double leftSpeed = 0;
         double rightSpeed = 0;
 
         auto t = roomba->getSamplingPeriod();
         double dt = t / 1000.0;
-        double yaw = local->heading;
+        heading = local->heading;
 
         if (mode == HEADING) {
-            double e = targetHeading - yaw;
+            double e = targetHeading - heading;
             if (e < -M_PI)
                 e = -(e - M_PI);
             else if (e > M_PI)

@@ -86,6 +86,13 @@ int main() {
 
     Logging::Core->debug("Initialization complete");
 
+    robot.step(TIME_STEP);
+    local.update(&roomba);
+    mc.setTarget(local.heading);
+    Logging::Core->debug("Starting heading is {}", local.heading);
+
+    planner.startUndock();
+
     while (robot.step(TIME_STEP) != -1) {
         local.update(&roomba);
         if (!tuneMode)

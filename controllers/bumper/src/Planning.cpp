@@ -39,6 +39,12 @@ namespace roomba {
         target = newTarget;
     }
 
+    void PathPlanning::startUndock() {
+        Logging::Core->debug("Planning mode switched to UNDOCK");
+        mode = UNDOCK;
+        reverseTime = 2.0;
+    }
+
     void PathPlanning::startReverse() {
         Logging::Core->debug("Planning mode switch to REVERSE");
         mode = REVERSE;
@@ -48,6 +54,11 @@ namespace roomba {
     void PathPlanning::startReverseTurn() {
         Logging::Core->debug("Planning mode switch to REVERSE_TURN");
         mode = REVERSE_TURN;
+    }
+
+    void PathPlanning::startGridSearch() {
+        Logging::Core->debug("Planning mode switch to GRID_SEARCH");
+        mode = GRID_SEARCH;
     }
 
     void PathPlanning::update(Roomba * roomba, Localizer * local, MotionControl * mc) {
@@ -63,10 +74,16 @@ namespace roomba {
             mc->setDrive(1.0);
             return;
         }
-        else if (mode == REVERSE) {
+        else if (mode == REVERSE || mode == UNDOCK) {
             if (reverseTime <= 0.0) {
-                startReverseTurn();
-                mc->setTarget(local->heading + M_PI / 3);
+                if (mode == REVERSE) {
+                    startReverseTurn();
+                    mc->setTarget(local->heading + M_PI / 3);
+                }
+                else {
+                    mode = UNDOCK_TURN;
+                    mc->setTarget(local->heading + M_PI);
+                }
                 return;
             }
 
@@ -75,10 +92,9 @@ namespace roomba {
 
             return;
         }
-        else if (mode == REVERSE_TURN) {
+        else if (mode == REVERSE_TURN || mode == UNDOCK_TURN) {
             if (abs(local->heading - mc->getTarget()) < 0.01) {
-                Logging::Core->debug("Planning mode switch to GRID_SEARCH");
-                mode = GRID_SEARCH;
+                startGridSearch();
             }
             else {
                 mc->setDrive(0.0);
@@ -125,6 +141,8 @@ namespace roomba {
                       {"x", target.x},
                       {"y", target.y},
                   }},
+                 {"reverseTime", reverseTime},
+                 {"mode", mode},
                  {"dist", dist},
              }},
         };

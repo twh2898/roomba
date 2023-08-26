@@ -17,6 +17,7 @@ namespace roomba {
 
     private:
         double speed;
+        double heading; // Current heading as of last update
         double targetHeading;
         PID steerPID;
         Mode mode;
@@ -46,6 +47,8 @@ namespace roomba {
         double getDrive() const;
 
         void setDrive(double val);
+
+        double headingDiff() const;
 
         void update(Roomba * roomba, Localizer * local);
 
