@@ -15,7 +15,7 @@ set(HEADER_LIST
 list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
 
 set(SOURCE_LIST
-    bumper.cpp
+    main.cpp
     Localizer.cpp
     MotionControl.cpp
     PID.cpp
