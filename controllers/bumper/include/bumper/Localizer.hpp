@@ -20,7 +20,7 @@ namespace roomba {
     public:
         Localizer();
 
-        void update(Roomba * roomba);
+        void update(Platform * roomba);
 
         json getTelemetry() const override;
     };

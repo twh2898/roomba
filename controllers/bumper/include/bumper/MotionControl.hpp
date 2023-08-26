@@ -50,7 +50,7 @@ namespace roomba {
 
         double headingDiff() const;
 
-        void update(Roomba * roomba, Localizer * local);
+        void update(Platform * roomba, Localizer * local);
 
         json getTelemetry() const override;
     };

@@ -15,7 +15,7 @@
 namespace roomba {
     using namespace webots;
 
-    class Roomba : public TelemetrySender {
+    class Platform : public TelemetrySender {
     public:
         const float radius = 0.155;
 
@@ -32,7 +32,7 @@ namespace roomba {
         TouchSensor * bumper;
 
     public:
-        Roomba(Robot * robot);
+        Platform(Robot * robot);
 
         bool stopped() const;
 

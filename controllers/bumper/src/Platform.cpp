@@ -1,7 +1,7 @@
 #include "bumper/Platform.hpp"
 
 namespace roomba {
-    Roomba::Roomba(Robot * robot) : robot(robot) {
+    Platform::Platform(Robot * robot) : robot(robot) {
         bumper = robot->getTouchSensor("bumper");
         accel = robot->getAccelerometer("accel");
         gyro = robot->getGyro("gyro");
@@ -21,16 +21,16 @@ namespace roomba {
         rightEncoder = robot->getPositionSensor("right wheel sensor");
     }
 
-    bool Roomba::stopped() const {
+    bool Platform::stopped() const {
         return abs(leftMotor->getVelocity()) < 0.05
                && abs(rightMotor->getVelocity()) < 0.05;
     }
 
-    int Roomba::getSamplingPeriod() const {
+    int Platform::getSamplingPeriod() const {
         return imu->getSamplingPeriod();
     }
 
-    void Roomba::enable(int samplingPeriod) {
+    void Platform::enable(int samplingPeriod) {
         bumper->enable(samplingPeriod);
         accel->enable(samplingPeriod);
         gyro->enable(samplingPeriod);
@@ -40,7 +40,7 @@ namespace roomba {
         rightEncoder->enable(samplingPeriod);
     }
 
-    void Roomba::disable() {
+    void Platform::disable() {
         bumper->disable();
         accel->disable();
         gyro->disable();
@@ -50,11 +50,11 @@ namespace roomba {
         rightEncoder->disable();
     }
 
-    double Roomba::dt() const {
+    double Platform::dt() const {
         return (double)getSamplingPeriod() / 1000.0;
     }
 
-    json Roomba::getTelemetry() const {
+    json Platform::getTelemetry() const {
         json motorData = {
             {"left",
              {

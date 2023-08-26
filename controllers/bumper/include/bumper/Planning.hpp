@@ -52,7 +52,7 @@ namespace roomba {
 
         void startGridSearch();
 
-        void update(Roomba * roomba, Localizer * local, MotionControl * mc);
+        void update(Platform * roomba, Localizer * local, MotionControl * mc);
 
         json getTelemetry() const override;
     };

@@ -60,7 +60,7 @@ namespace roomba {
         return targetHeading - heading;
     }
 
-    void MotionControl::update(Roomba * roomba, Localizer * local) {
+    void MotionControl::update(Platform * roomba, Localizer * local) {
         double leftSpeed = 0;
         double rightSpeed = 0;
 

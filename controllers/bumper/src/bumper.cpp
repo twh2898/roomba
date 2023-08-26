@@ -50,7 +50,7 @@ int main() {
     int leftSpeed, rightSpeed;
 
     Robot robot;
-    Roomba roomba(&robot);
+    Platform roomba(&robot);
     roomba.enable(TIME_STEP);
 
     Telemetry tel(9870, "0.0.0.0");

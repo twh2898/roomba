@@ -3,7 +3,7 @@
 namespace roomba {
     Localizer::Localizer() : vel(0, 0), pos(0, 0), heading(0) {}
 
-    void Localizer::update(Roomba * roomba) {
+    void Localizer::update(Platform * roomba) {
         heading = roomba->imu->getRollPitchYaw()[2];
 
         auto * gpsV = roomba->gps->getValues();

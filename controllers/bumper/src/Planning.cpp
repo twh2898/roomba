@@ -61,7 +61,7 @@ namespace roomba {
         mode = GRID_SEARCH;
     }
 
-    void PathPlanning::update(Roomba * roomba, Localizer * local, MotionControl * mc) {
+    void PathPlanning::update(Platform * roomba, Localizer * local, MotionControl * mc) {
         double dt = roomba->dt();
 
         if (mode == GRID_SEARCH) {
