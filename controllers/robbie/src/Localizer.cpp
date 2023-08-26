@@ -3,10 +3,10 @@
 namespace robbie {
     Localizer::Localizer() : vel(0, 0), pos(0, 0), heading(0) {}
 
-    void Localizer::update(Platform * roomba) {
-        heading = roomba->imu->getRollPitchYaw()[2];
+    void Localizer::update(Platform & platform) {
+        heading = platform.imu->getRollPitchYaw()[2];
 
-        auto * gpsV = roomba->gps->getValues();
+        auto * gpsV = platform.gps->getValues();
         pos.x = gpsV[0];
         pos.y = gpsV[1];
     }

@@ -11,6 +11,8 @@ namespace robbie {
     using webots::Accelerometer;
     using webots::Motor;
 
+    class Robbie;
+
     class Localizer : public TelemetrySender {
     public:
         XY vel;
@@ -20,7 +22,7 @@ namespace robbie {
     public:
         Localizer();
 
-        void update(Platform * roomba);
+        void update(Platform & platform);
 
         json getTelemetry() const override;
     };
