@@ -34,6 +34,8 @@ add_executable(${TARGET}
 
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 23)
+
 target_link_libraries(${TARGET}
     spdlog::spdlog
     ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX}

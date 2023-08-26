@@ -94,8 +94,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        void trace(const FormatString & fmt, Args &&... args) {
+        template<typename... Args>
+        void trace(spdlog::format_string_t<Args...> fmt, Args &&... args) {
             logger->trace(fmt, std::forward<Args>(args)...);
         }
 
@@ -105,8 +105,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        void debug(const FormatString & fmt, Args &&... args) {
+        template<typename... Args>
+        void debug(spdlog::format_string_t<Args...> fmt, Args &&... args) {
             logger->debug(fmt, std::forward<Args>(args)...);
         }
 
@@ -116,8 +116,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        void info(const FormatString & fmt, Args &&... args) {
+        template<typename... Args>
+        void info(spdlog::format_string_t<Args...> fmt, Args &&... args) {
             logger->info(fmt, std::forward<Args>(args)...);
         }
 
@@ -127,8 +127,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        void warning(const FormatString & fmt, Args &&... args) {
+        template<typename... Args>
+        void warning(spdlog::format_string_t<Args...> fmt, Args &&... args) {
             logger->warn(fmt, std::forward<Args>(args)...);
         }
 
@@ -138,8 +138,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        void error(const FormatString & fmt, Args &&... args) {
+        template<typename... Args>
+        void error(spdlog::format_string_t<Args...> fmt, Args &&... args) {
             logger->error(fmt, std::forward<Args>(args)...);
         }
 
@@ -150,8 +150,8 @@ namespace roomba::Logging {
          * @param fmt the format string
          * @param args... the format arguments
          */
-        template<typename FormatString, typename... Args>
-        [[noreturn]] void critical(const FormatString & fmt,
+        template<typename... Args>
+        [[noreturn]] void critical(spdlog::format_string_t<Args...> fmt,
                                    Args &&... args) noexcept {
             logger->critical(fmt, std::forward<Args>(args)...);
             std::terminate();
