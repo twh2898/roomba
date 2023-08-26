@@ -2,7 +2,7 @@
 
 namespace robbie {
 
-    json World::getTelemetry() const {
+    json WorldModel::getTelemetry() const {
         return json {
             {"world", {}},
         };

@@ -5,7 +5,7 @@
 #include "Telemetry.hpp"
 
 namespace robbie {
-    class World : public TelemetrySender {
+    class WorldModel : public TelemetrySender {
     public:
         json getTelemetry() const override;
     };
