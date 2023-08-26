@@ -9,6 +9,7 @@ set(HEADER_LIST
     Planning.hpp
     Roomba.hpp
     Telemetry.hpp
+    XY.hpp
 )
 list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
 
