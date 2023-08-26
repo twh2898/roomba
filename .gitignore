@@ -1,4 +1,3 @@
 build/
 worlds/*.jpg
 worlds/*.wbproj
-controllers/bumper/log.txt

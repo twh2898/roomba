@@ -17,13 +17,13 @@ using namespace std;
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-#include "bumper/Localizer.hpp"
-#include "bumper/MotionControl.hpp"
-#include "bumper/PID.hpp"
-#include "bumper/Planning.hpp"
-#include "bumper/Platform.hpp"
-#include "bumper/Telemetry.hpp"
-#include "bumper/log.hpp"
+#include "robbie/Localizer.hpp"
+#include "robbie/MotionControl.hpp"
+#include "robbie/PID.hpp"
+#include "robbie/Planning.hpp"
+#include "robbie/Platform.hpp"
+#include "robbie/Telemetry.hpp"
+#include "robbie/log.hpp"
 
 using namespace robbie;
 

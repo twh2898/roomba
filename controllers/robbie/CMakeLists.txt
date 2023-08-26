@@ -1,5 +1,5 @@
 
-set(TARGET bumper)
+set(TARGET robbie)
 
 set(HEADER_LIST
     Localizer.hpp
