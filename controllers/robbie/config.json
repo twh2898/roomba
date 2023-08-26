@@ -1,4 +1,8 @@
 {
+    "telemetry": {
+        "port": 9870,
+        "address": "0.0.0.0"
+    },
     "pid": {
         "mode": "dev",
         "low": {
