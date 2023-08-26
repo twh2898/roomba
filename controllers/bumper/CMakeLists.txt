@@ -7,7 +7,7 @@ set(HEADER_LIST
     MotionControl.hpp
     PID.hpp
     Planning.hpp
-    Roomba.hpp
+    Platform.hpp
     Telemetry.hpp
     World.hpp
     XY.hpp
@@ -20,7 +20,7 @@ set(SOURCE_LIST
     MotionControl.cpp
     PID.cpp
     Planning.cpp
-    Roomba.cpp
+    Platform.cpp
     Telemetry.cpp
     World.cpp
 )

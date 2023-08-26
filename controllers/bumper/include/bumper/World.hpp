@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Localizer.hpp"
-#include "Roomba.hpp"
+#include "Platform.hpp"
 #include "Telemetry.hpp"
 
 namespace roomba {

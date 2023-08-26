@@ -21,7 +21,7 @@ using namespace std;
 #include "bumper/MotionControl.hpp"
 #include "bumper/PID.hpp"
 #include "bumper/Planning.hpp"
-#include "bumper/Roomba.hpp"
+#include "bumper/Platform.hpp"
 #include "bumper/Telemetry.hpp"
 #include "bumper/log.hpp"
 

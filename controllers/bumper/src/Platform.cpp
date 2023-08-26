@@ -1,4 +1,4 @@
-#include "bumper/Roomba.hpp"
+#include "bumper/Platform.hpp"
 
 namespace roomba {
     Roomba::Roomba(Robot * robot) : robot(robot) {
