@@ -1,6 +1,6 @@
 #pragma once
 
-namespace roomba {
+namespace robbie {
     struct XY {
         double x;
         double y;

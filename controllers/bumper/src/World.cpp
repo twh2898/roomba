@@ -1,6 +1,6 @@
 #include "bumper/World.hpp"
 
-namespace roomba {
+namespace robbie {
 
     json World::getTelemetry() const {
         return json {

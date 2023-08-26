@@ -1,6 +1,6 @@
 #include "bumper/Platform.hpp"
 
-namespace roomba {
+namespace robbie {
     Platform::Platform(Robot * robot) : robot(robot) {
         bumper = robot->getTouchSensor("bumper");
         accel = robot->getAccelerometer("accel");

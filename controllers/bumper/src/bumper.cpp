@@ -25,11 +25,11 @@ using namespace std;
 #include "bumper/Telemetry.hpp"
 #include "bumper/log.hpp"
 
-using namespace roomba;
+using namespace robbie;
 
 #define TIME_STEP 64
 
-namespace roomba::Logging {
+namespace robbie::Logging {
     Logger::Ptr Core;
 }
 

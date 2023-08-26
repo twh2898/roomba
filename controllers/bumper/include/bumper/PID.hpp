@@ -4,7 +4,7 @@
 
 #include "Telemetry.hpp"
 
-namespace roomba {
+namespace robbie {
     class PID : public TelemetrySender {
         double max;
         double min;

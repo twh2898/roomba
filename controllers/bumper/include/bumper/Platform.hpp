@@ -12,7 +12,7 @@
 
 #include "Telemetry.hpp"
 
-namespace roomba {
+namespace robbie {
     using namespace webots;
 
     class Platform : public TelemetrySender {

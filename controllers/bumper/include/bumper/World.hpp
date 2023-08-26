@@ -4,7 +4,7 @@
 #include "Platform.hpp"
 #include "Telemetry.hpp"
 
-namespace roomba {
+namespace robbie {
     class World : public TelemetrySender {
     public:
         json getTelemetry() const override;

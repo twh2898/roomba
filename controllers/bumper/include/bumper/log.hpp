@@ -15,7 +15,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-namespace roomba::Logging {
+namespace robbie::Logging {
     using std::vector;
     using std::shared_ptr;
     using std::make_shared;

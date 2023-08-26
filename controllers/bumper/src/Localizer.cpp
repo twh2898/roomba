@@ -1,6 +1,6 @@
 #include "bumper/Localizer.hpp"
 
-namespace roomba {
+namespace robbie {
     Localizer::Localizer() : vel(0, 0), pos(0, 0), heading(0) {}
 
     void Localizer::update(Platform * roomba) {

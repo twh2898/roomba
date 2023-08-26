@@ -7,7 +7,7 @@
 #include "Platform.hpp"
 #include "Telemetry.hpp"
 
-namespace roomba {
+namespace robbie {
     class MotionControl : public TelemetrySender {
     public:
         enum Mode {

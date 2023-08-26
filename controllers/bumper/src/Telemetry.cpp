@@ -4,7 +4,7 @@
 
 #include <exception>
 
-namespace roomba {
+namespace robbie {
     using std::runtime_error;
 
     Telemetry::Telemetry(int udpPort, string udpAddress)

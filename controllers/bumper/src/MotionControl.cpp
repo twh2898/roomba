@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace roomba {
+namespace robbie {
     using std::clamp;
 
     MotionControl::MotionControl(PID steerPID, Mode mode)

@@ -6,7 +6,7 @@
 
 #include "json.hpp"
 
-namespace roomba {
+namespace robbie {
     using json = nlohmann::json;
 
     using std::string;

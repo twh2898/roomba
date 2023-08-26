@@ -2,7 +2,7 @@
 
 #include <exception>
 
-namespace roomba {
+namespace robbie {
     using std::runtime_error;
 
     PID::PID(double min, double max, double Kp, double Ki, double Kd)

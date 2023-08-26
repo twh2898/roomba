@@ -7,7 +7,7 @@
 #include "Telemetry.hpp"
 #include "XY.hpp"
 
-namespace roomba {
+namespace robbie {
     using std::vector;
 
     class PathPlanning : public TelemetrySender {

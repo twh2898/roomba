@@ -4,7 +4,7 @@
 
 #include "bumper/log.hpp"
 
-namespace roomba {
+namespace robbie {
     using std::abs;
     using std::sqrt;
     using std::atan2;
