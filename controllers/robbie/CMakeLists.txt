@@ -2,6 +2,7 @@
 set(TARGET robbie)
 
 set(HEADER_LIST
+    Config.hpp
     Localizer.hpp
     log.hpp
     MotionControl.hpp
@@ -17,6 +18,7 @@ list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
 
 set(SOURCE_LIST
     main.cpp
+    Config.cpp
     Localizer.cpp
     MotionControl.cpp
     PID.cpp
