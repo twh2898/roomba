@@ -8,6 +8,7 @@ set(HEADER_LIST
     PID.hpp
     Planning.hpp
     Platform.hpp
+    Robbie.hpp
     Telemetry.hpp
     World.hpp
     XY.hpp
@@ -21,6 +22,7 @@ set(SOURCE_LIST
     PID.cpp
     Planning.cpp
     Platform.cpp
+    Robbie.cpp
     Telemetry.cpp
     World.cpp
 )
