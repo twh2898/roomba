@@ -9,6 +9,7 @@ set(HEADER_LIST
     Planning.hpp
     Roomba.hpp
     Telemetry.hpp
+    World.hpp
     XY.hpp
 )
 list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
@@ -21,6 +22,7 @@ set(SOURCE_LIST
     Planning.cpp
     Roomba.cpp
     Telemetry.cpp
+    World.cpp
 )
 list(TRANSFORM SOURCE_LIST PREPEND "src/")
 
