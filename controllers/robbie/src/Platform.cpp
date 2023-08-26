@@ -1,15 +1,15 @@
 #include "robbie/Platform.hpp"
 
 namespace robbie {
-    Platform::Platform(Robot * robot) : robot(robot) {
-        bumper = robot->getTouchSensor("bumper");
-        accel = robot->getAccelerometer("accel");
-        gyro = robot->getGyro("gyro");
-        gps = robot->getGPS("gps");
-        imu = robot->getInertialUnit("imu");
+    Platform::Platform() : robot(), lastStep(0.0) {
+        bumper = robot.getTouchSensor("bumper");
+        accel = robot.getAccelerometer("accel");
+        gyro = robot.getGyro("gyro");
+        gps = robot.getGPS("gps");
+        imu = robot.getInertialUnit("imu");
 
-        leftMotor = robot->getMotor("left wheel motor");
-        rightMotor = robot->getMotor("right wheel motor");
+        leftMotor = robot.getMotor("left wheel motor");
+        rightMotor = robot.getMotor("right wheel motor");
 
         leftMotor->setPosition(INFINITY);
         rightMotor->setPosition(INFINITY);
@@ -17,8 +17,8 @@ namespace robbie {
         leftMotor->setVelocity(0.0);
         rightMotor->setVelocity(0.0);
 
-        leftEncoder = robot->getPositionSensor("left wheel sensor");
-        rightEncoder = robot->getPositionSensor("right wheel sensor");
+        leftEncoder = robot.getPositionSensor("left wheel sensor");
+        rightEncoder = robot.getPositionSensor("right wheel sensor");
     }
 
     bool Platform::stopped() const {
@@ -26,8 +26,17 @@ namespace robbie {
                && abs(rightMotor->getVelocity()) < 0.05;
     }
 
+    void Platform::step(int duration) {
+        robot.step(duration);
+        lastStep = duration;
+    }
+
     int Platform::getSamplingPeriod() const {
-        return imu->getSamplingPeriod();
+        return lastStep;
+    }
+
+    double Platform::dt() const {
+        return (double)lastStep / 1000.0;
     }
 
     void Platform::enable(int samplingPeriod) {
@@ -48,10 +57,6 @@ namespace robbie {
         imu->disable();
         leftEncoder->disable();
         rightEncoder->disable();
-    }
-
-    double Platform::dt() const {
-        return (double)getSamplingPeriod() / 1000.0;
     }
 
     json Platform::getTelemetry() const {
@@ -107,7 +112,8 @@ namespace robbie {
         return json {
             {"motor", motorData},
             {"sensors", sensorData},
-            {"time", robot->getTime()},
+            {"time", robot.getTime()},
+            {"dt", dt()},
         };
     }
 }

@@ -16,11 +16,13 @@ namespace robbie {
     using namespace webots;
 
     class Platform : public TelemetrySender {
+        int lastStep;
+
     public:
         const float radius = 0.155;
 
     public:
-        Robot * robot;
+        Robot robot;
         Motor * leftMotor;
         Motor * rightMotor;
         Accelerometer * accel;
@@ -32,17 +34,19 @@ namespace robbie {
         TouchSensor * bumper;
 
     public:
-        Platform(Robot * robot);
+        Platform();
 
         bool stopped() const;
 
+        void step(int duration);
+
         int getSamplingPeriod() const;
+
+        double dt() const;
 
         void enable(int samplingPeriod);
 
         void disable();
-
-        double dt() const;
 
         json getTelemetry() const override;
     };
