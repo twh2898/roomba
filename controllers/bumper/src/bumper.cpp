@@ -78,9 +78,11 @@ int main() {
         mc.setDrive(config["drive"]);
     }
     else {
-        planner.setZoneSize(target["size"]);
-        planner.setPath(path);
+        // planner.setZoneSize(target["size"]);
+        // planner.setPath(path);
     }
+
+    mc.setTarget(M_PI);
 
     Logging::Core->debug("Initialization complete");
 

@@ -14,6 +14,9 @@ namespace roomba {
         enum Mode {
             FOLLOW,
             TURN,
+            GRID_SEARCH,
+            REVERSE,
+            REVERSE_TURN,
         } mode;
 
         XY target;
@@ -23,6 +26,8 @@ namespace roomba {
 
         vector<XY> path;
         int index;
+
+        double reverseTime;
 
     public:
         PathPlanning(double x = 1, double y = 1, double zoneSize = 1);
@@ -36,6 +41,10 @@ namespace roomba {
         XY getTarget() const;
 
         void setTarget(XY newTarget);
+
+        void startReverse();
+
+        void startReverseTurn();
 
         void update(Roomba * roomba, Localizer * local, MotionControl * mc);
 
