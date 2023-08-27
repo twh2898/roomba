@@ -1,8 +1,10 @@
 #pragma once
 
+#include <exception>
 #include <map>
 #include <string>
 
+#include "PID.hpp"
 #include "json.hpp"
 
 namespace robbie {
@@ -10,6 +12,11 @@ namespace robbie {
 
     using std::string;
     using std::map;
+
+    class ConfigLoadException : public std::runtime_error {
+    public:
+        using std::runtime_error::runtime_error;
+    };
 
     struct TelemetryConfig {
         int port;
@@ -23,15 +30,18 @@ namespace robbie {
         double speed;
     };
 
+    struct TargetConfig {
+        double heading;
+        double size;
+    };
+
     struct Config {
         json data;
 
         TelemetryConfig telemetry;
-        string pidMode;
+        PIDConfig pid;
         bool tuneMode;
-        map<string, PIDConfig> pid;
-
-        PIDConfig & getPID() const;
+        TargetConfig target;
 
         static Config fromFile(const string & file);
     };
