@@ -80,11 +80,11 @@ namespace robbie {
             if (reverseTime <= 0.0) {
                 if (mode == REVERSE) {
                     startReverseTurn();
-                    mc->setTarget(local->heading + M_PI / 3);
+                    mc->setTarget(local->getHeading() + M_PI / 3);
                 }
                 else {
                     mode = UNDOCK_TURN;
-                    mc->setTarget(local->heading + M_PI);
+                    mc->setTarget(local->getHeading() + M_PI);
                 }
                 return;
             }
@@ -95,7 +95,7 @@ namespace robbie {
             return;
         }
         else if (mode == REVERSE_TURN || mode == UNDOCK_TURN) {
-            if (abs(local->heading - mc->getTarget()) < 0.01) {
+            if (abs(local->getHeading() - mc->getTarget()) < 0.01) {
                 startGridSearch();
             }
             else {
@@ -113,7 +113,7 @@ namespace robbie {
 
         if (mode == TURN) {
             mc->setDrive(0);
-            if (abs(local->heading - heading) < 0.01) {
+            if (abs(local->getHeading() - heading) < 0.01) {
                 Logging::Planning->debug("Planning mode switch to FOLLOW");
                 mode = FOLLOW;
             }
