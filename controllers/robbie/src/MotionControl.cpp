@@ -66,7 +66,7 @@ namespace robbie {
 
         auto t = roomba->getSamplingPeriod();
         double dt = t / 1000.0;
-        heading = local->heading;
+        heading = local->getHeading();
 
         if (mode == HEADING) {
             double e = targetHeading - heading;
