@@ -5,8 +5,6 @@
 namespace robbie {
     using std::fstream;
 
-    Config::Config() {}
-
     static json testKey(string key, json data) {
         if (data.contains(key))
             return data["key"];
