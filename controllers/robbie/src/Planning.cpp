@@ -104,11 +104,11 @@ namespace robbie {
             return;
         }
 
-        double dx = target.x - local->pos.x;
-        double dy = target.y - local->pos.y;
-        dist = abs(sqrt(dx * dx + dy * dy));
+        auto delta = local->getPosition() - target;
+        delta.normalize();
+        dist = local->getPosition().dist(target);
 
-        double heading = atan2(dy, dx);
+        double heading = delta.angle();
         mc->setTarget(heading);
 
         if (mode == TURN) {

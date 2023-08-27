@@ -27,7 +27,7 @@ namespace robbie {
         auto * gpsV = platform.gps->getValues();
         XY newPos(gpsV[0], gpsV[1]);
 
-        vel = pos.length(newPos) / platform.dt();
+        vel = pos.dist(newPos) / platform.dt();
 
         pos = newPos;
     }
