@@ -21,9 +21,9 @@ namespace robbie {
         rightEncoder = robot.getPositionSensor("right wheel sensor");
     }
 
-    void Platform::step(int duration) {
-        robot.step(duration);
+    int Platform::step(int duration) {
         lastStep = duration;
+        return robot.step(duration);
     }
 
     int Platform::getSamplingPeriod() const {

@@ -18,7 +18,7 @@ namespace robbie {
 
         Robbie();
 
-        void step(int duration);
+        int step(int duration);
 
         json getTelemetry() const override;
     };

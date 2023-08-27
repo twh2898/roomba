@@ -3,9 +3,10 @@
 namespace robbie {
     Robbie::Robbie() : platform(), local() {}
 
-    void Robbie::step(int duration) {
-        platform.step(duration);
+    int Robbie::step(int duration) {
+        int status = platform.step(duration);
         local.update(platform);
+        return status;
     }
 
     json Robbie::getTelemetry() const {
