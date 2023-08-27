@@ -17,12 +17,15 @@ using namespace std;
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
+#include "robbie/Config.hpp"
 #include "robbie/Localizer.hpp"
 #include "robbie/MotionControl.hpp"
 #include "robbie/PID.hpp"
 #include "robbie/Planning.hpp"
 #include "robbie/Platform.hpp"
+#include "robbie/Robbie.hpp"
 #include "robbie/Telemetry.hpp"
+#include "robbie/World.hpp"
 #include "robbie/log.hpp"
 
 using namespace robbie;
@@ -41,69 +44,40 @@ int main() {
 
     Logging::Planning = make_shared<Logging::Logger>("Planning");
 
-    fstream f("config.json");
-    json config = json::parse(f);
-
-    {
-        string c = config.dump();
-        Logging::Core->debug("Config: {}", c);
+    Config config;
+    try {
+        config = Config::fromFile("config.json");
+    }
+    catch (ConfigLoadException & e) {
+        Logging::Core->critical("Failed to load config: {}", e.what());
     }
 
-    int movementCounter = 0;
-    int leftSpeed, rightSpeed;
+    Telemetry tel(config.telemetry.port, config.telemetry.address);
 
-    Robot robot;
-    Platform roomba(&robot);
-    roomba.enable(TIME_STEP);
+    Robbie robbie;
+    robbie.platform.enable(TIME_STEP);
 
-    Telemetry tel(9870, "0.0.0.0");
+    auto pidConfig = config.pid;
+    PID pid(-1, 1, pidConfig.p, pidConfig.i, pidConfig.d);
 
-    bool tuneMode = config["tuneMode"];
+    WorldModel world;
 
-    auto mode = config["pid"]["mode"];
-    auto pidConfig = config["pid"][mode];
-    PID pid(-1, 1, pidConfig["p"], pidConfig["i"], pidConfig["d"]);
-
-    Localizer local;
     PathPlanning planner;
     MotionControl mc(pid, MotionControl::HEADING);
-    mc.setSpeed(pidConfig["speed"]);
-
-    vector<XY> path;
-    for (auto xy : config["path"]) {
-        path.emplace_back(xy["x"], xy["y"]);
-    }
-
-    auto target = config["target"];
-
-    if (tuneMode) {
-        mc.setTarget(target["heading"]);
-        mc.setDrive(config["drive"]);
-    }
-    else {
-        // planner.setZoneSize(target["size"]);
-        // planner.setPath(path);
-    }
-
-    mc.setTarget(M_PI);
+    mc.setSpeed(pidConfig.speed);
 
     Logging::Core->debug("Initialization complete");
 
-    robot.step(TIME_STEP);
-    local.update(&roomba);
-    mc.setTarget(local.heading);
-    Logging::Core->debug("Starting heading is {}", local.heading);
+    robbie.step(TIME_STEP);
+    mc.setTarget(robbie.local.getHeading());
+    Logging::Core->debug("Starting heading is {}", robbie.local.getHeading());
 
     planner.startUndock();
 
-    while (robot.step(TIME_STEP) != -1) {
-        local.update(&roomba);
-        if (!tuneMode)
-            planner.update(&roomba, &local, &mc);
-        mc.update(&roomba, &local);
+    while (robbie.step(TIME_STEP) != -1) {
+        mc.update(&robbie.platform, &robbie.local);
 
-        tel.send(&roomba);
-        tel.send(&local);
+        tel.send(&robbie);
         tel.send(&planner);
         tel.send(&mc);
     }
