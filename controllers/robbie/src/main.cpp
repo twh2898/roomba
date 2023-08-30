@@ -82,7 +82,6 @@ int main() {
 
     while (robbie.step(TIME_STEP) != -1) {
         planner.update();
-        // FIXME: Planner gets updated after MotionControl
         tel.send(&robbie);
         tel.send(&planner);
     }
