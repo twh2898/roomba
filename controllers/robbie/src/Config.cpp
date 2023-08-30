@@ -2,40 +2,79 @@
 
 #include <fstream>
 
+#include "robbie/log.hpp"
+
 namespace robbie {
     using std::fstream;
 
-    static json testKey(string key, json data) {
-        if (data.contains(key))
-            return data["key"];
-        else
-            throw ConfigLoadException("Missing key " + key);
+#define TEST_KEY(KEY, DATA)                                \
+    if (!(DATA).contains((KEY))) {                         \
+        throw ConfigLoadException("Missing key " + (KEY)); \
     }
 
     Config Config::fromFile(const string & file) {
+        Logging::Core->debug("Loading config from {}", file);
         fstream f(file);
         json data = json::parse(f);
 
-        auto telemConfig = testKey("telemetry", data);
+        auto ds = data.dump();
+        Logging::Core->debug("Config data is {}", ds);
+
+        if (!data.contains("telemetry"))
+            throw ConfigLoadException("Missing key: telemetry");
+        auto telemConfig = data["telemetry"];
+
+        if (!telemConfig.contains("port"))
+            throw ConfigLoadException("Missing key: telemetry.port");
+
+        if (!telemConfig.contains("address"))
+            throw ConfigLoadException("Missing key: telemetry.address");
+
         TelemetryConfig telem {
-            port : testKey("port", telemConfig),
-            address : testKey("address", telemConfig),
+            port : telemConfig["port"],
+            address : telemConfig["address"],
         };
 
-        auto pidConfig = testKey("pid", data);
+        if (!data.contains("pid"))
+            throw ConfigLoadException("Missing key: pid");
+        auto pidConfig = data["pid"];
+
+        if (!pidConfig.contains("p"))
+            throw ConfigLoadException("Missing key: pid.p");
+
+        if (!pidConfig.contains("i"))
+            throw ConfigLoadException("Missing key: pid.i");
+
+        if (!pidConfig.contains("d"))
+            throw ConfigLoadException("Missing key: pid.d");
+
+        if (!pidConfig.contains("speed"))
+            throw ConfigLoadException("Missing key: pid.speed");
+
         PIDConfig pid {
-            p : testKey("p", pidConfig),
-            i : testKey("i", pidConfig),
-            d : testKey("d", pidConfig),
-            speed : testKey("speed", pidConfig),
+            p : pidConfig["p"],
+            i : pidConfig["i"],
+            d : pidConfig["d"],
+            speed : pidConfig["speed"],
         };
 
-        bool tuneMode = testKey("tuneMode", data);
+        if (!data.contains("tuneMode"))
+            throw ConfigLoadException("Missing key: tuneMode");
+        bool tuneMode = data["tuneMode"];
 
-        auto targetConfig = testKey("target", data);
+        if (!data.contains("target"))
+            throw ConfigLoadException("Missing key: target");
+        auto targetConfig = data["target"];
+
+        if (!targetConfig.contains("heading"))
+            throw ConfigLoadException("Missing key: target.heading");
+
+        if (!targetConfig.contains("size"))
+            throw ConfigLoadException("Missing key: target.size");
+
         TargetConfig target {
-            heading : testKey("heading", targetConfig),
-            size : testKey("size", targetConfig),
+            heading : targetConfig["heading"],
+            size : targetConfig["size"],
         };
 
         return Config {
