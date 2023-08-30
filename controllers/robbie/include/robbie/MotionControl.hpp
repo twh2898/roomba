@@ -20,13 +20,15 @@ namespace robbie {
         Localizer & local;
 
         double speed;
-        double heading; // Current heading as of last update
         double targetHeading;
         PID steerPID;
         Mode mode;
 
         double steer;
         double drive;
+
+        /// Update for MANUAL mode
+        void updateMotors();
 
     public:
         MotionControl(Platform & platform,
@@ -42,9 +44,7 @@ namespace robbie {
 
         void setSpeed(double val);
 
-        double getTarget() const;
-
-        void setTarget(double val);
+        // MANUAL MODE
 
         double getSteer() const;
 
@@ -54,9 +54,15 @@ namespace robbie {
 
         void setDrive(double val);
 
-        double headingDiff() const;
+        // HEADING MODE
+
+        double getTarget() const;
+
+        void setTarget(double val);
 
         void update();
+
+        // Telemetry
 
         json getTelemetry() const override;
     };
