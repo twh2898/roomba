@@ -33,15 +33,19 @@ using namespace robbie;
 #define TIME_STEP 64
 
 namespace robbie::Logging {
-    Logger::Ptr Core;
+    Logger::Ptr Main;
+    Logger::Ptr Config;
+    Logger::Ptr MC;
     Logger::Ptr Planning;
 }
 
 int main() {
     spdlog::set_level(spdlog::level::debug);
-    Logging::Core = make_shared<Logging::Logger>("Core");
-    Logging::Core->debug("Logging enabled");
+    Logging::Main = make_shared<Logging::Logger>("Core");
+    Logging::Main->debug("Logging enabled");
 
+    Logging::Config = make_shared<Logging::Logger>("Config");
+    Logging::MC = make_shared<Logging::Logger>("MC");
     Logging::Planning = make_shared<Logging::Logger>("Planning");
 
     Config config;
@@ -50,7 +54,7 @@ int main() {
     }
     catch (ConfigLoadException & e) {
         auto what = e.what();
-        Logging::Core->error("Failed to load config: {}", what);
+        Logging::Main->error("Failed to load config: {}", what);
         return EXIT_FAILURE;
     }
 
@@ -67,12 +71,12 @@ int main() {
 
     PathPlanning planner(robbie);
 
-    Logging::Core->debug("Initialization complete");
+    Logging::Main->debug("Initialization complete");
 
     robbie.step(TIME_STEP);
     robbie.mc.setTarget(robbie.local.getHeading());
     auto h = robbie.local.getHeading();
-    Logging::Core->debug("Starting heading is {}", h);
+    Logging::Main->debug("Starting heading is {}", h);
 
     planner.startUndock();
 

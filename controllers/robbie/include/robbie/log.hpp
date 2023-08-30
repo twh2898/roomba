@@ -196,6 +196,8 @@ namespace robbie::Logging {
         }
     };
 
-    extern Logger::Ptr Core;
+    extern Logger::Ptr Main;
+    extern Logger::Ptr Config;
+    extern Logger::Ptr MC;
     extern Logger::Ptr Planning;
 }

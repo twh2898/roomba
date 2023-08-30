@@ -13,12 +13,12 @@ namespace robbie {
     }
 
     Config Config::fromFile(const string & file) {
-        Logging::Core->debug("Loading config from {}", file);
+        Logging::Config->debug("Loading config from {}", file);
         fstream f(file);
         json data = json::parse(f);
 
         auto ds = data.dump();
-        Logging::Core->debug("Config data is {}", ds);
+        Logging::Config->debug("Config data is {}", ds);
 
         if (!data.contains("telemetry"))
             throw ConfigLoadException("Missing key: telemetry");

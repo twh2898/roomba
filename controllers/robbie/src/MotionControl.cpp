@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "robbie/log.hpp"
+
 namespace robbie {
     using std::clamp;
 
@@ -31,6 +33,8 @@ namespace robbie {
     }
 
     void MotionControl::setMode(Mode val) {
+        int i = val;
+        Logging::MC->debug("Switch mode to {}", i);
         mode = val;
     }
 
@@ -49,10 +53,13 @@ namespace robbie {
     }
 
     void MotionControl::setSteer(double val) {
-        if (mode == MANUAL) {
-            steer = val;
-            updateMotors();
+        if (mode == TARGET) {
+            Logging::MC->warning("MotionControl::setSteer called in TARGET mode");
+            return;
         }
+
+        steer = val;
+        updateMotors();
     }
 
     double MotionControl::getDrive() const {
@@ -60,10 +67,13 @@ namespace robbie {
     }
 
     void MotionControl::setDrive(double val) {
-        if (mode == MANUAL) {
-            drive = clamp(val, -1.0, 1.0);
-            updateMotors();
+        if (mode == TARGET) {
+            Logging::MC->warning("MotionControl::setDrive called in TARGET mode");
+            return;
         }
+
+        drive = clamp(val, -1.0, 1.0);
+        updateMotors();
     }
 
     // TARGET MODE
