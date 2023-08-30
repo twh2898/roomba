@@ -49,7 +49,9 @@ int main() {
         config = Config::fromFile("config.json");
     }
     catch (ConfigLoadException & e) {
-        Logging::Core->critical("Failed to load config: {}", e.what());
+        auto what = e.what();
+        Logging::Core->error("Failed to load config: {}", what);
+        return EXIT_FAILURE;
     }
 
     Telemetry tel(config.telemetry.port, config.telemetry.address);
@@ -70,7 +72,8 @@ int main() {
 
     robbie.step(TIME_STEP);
     mc.setTarget(robbie.local.getHeading());
-    Logging::Core->debug("Starting heading is {}", robbie.local.getHeading());
+    auto h = robbie.local.getHeading();
+    Logging::Core->debug("Starting heading is {}", h);
 
     planner.startUndock();
 
