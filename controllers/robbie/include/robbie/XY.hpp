@@ -172,9 +172,9 @@ namespace robbie {
         double cross(const XY & other) const {
             return (x * other.y) - (y * other.x);
         }
-    };
 
-    ostream & operator<<(ostream & os, const XY & xy) {
-        return os << "XY(x=" << xy.x << ", y=" << xy.y << ")";
-    }
+        friend ostream & operator<<(ostream & os, const XY & xy) {
+            return os << "XY(x=" << xy.x << ", y=" << xy.y << ")";
+        }
+    };
 }
