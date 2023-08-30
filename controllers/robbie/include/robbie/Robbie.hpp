@@ -2,7 +2,6 @@
 
 #include "Localizer.hpp"
 #include "MotionControl.hpp"
-#include "PID.hpp"
 #include "Platform.hpp"
 #include "Telemetry.hpp"
 
@@ -13,7 +12,7 @@ namespace robbie {
         Localizer local;
         MotionControl mc;
 
-        Robbie(PID steerPID);
+        Robbie();
 
         int step(int duration);
 

@@ -61,9 +61,9 @@ int main() {
     Telemetry tel(config.telemetry.port, config.telemetry.address);
 
     auto pidConfig = config.pid;
-    PID pid(-1, 1, pidConfig.p, pidConfig.i, pidConfig.d);
+    // PID pid(-1, 1, pidConfig.p, pidConfig.i, pidConfig.d);
 
-    Robbie robbie(pid);
+    Robbie robbie;
     robbie.platform.enable(TIME_STEP);
     robbie.mc.setSpeed(pidConfig.speed);
 

@@ -7,15 +7,12 @@
 namespace robbie {
     using std::clamp;
 
-    MotionControl::MotionControl(Platform & platform,
-                                 Localizer & local,
-                                 PID steerPID,
-                                 Mode mode)
+    MotionControl::MotionControl(Platform & platform, Localizer & local, Mode mode)
         : platform(platform),
           local(local),
           speed(20),
           targetHeading(0),
-          steerPID(steerPID),
+          steerPID(-1, 1, 7, 0.01, 0.1),
           mode(mode),
           steer(0),
           drive(0) {}

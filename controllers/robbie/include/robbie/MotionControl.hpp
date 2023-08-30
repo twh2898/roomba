@@ -19,22 +19,23 @@ namespace robbie {
         Platform & platform;
         Localizer & local;
 
-        double speed;
-        double targetHeading;
-        PID steerPID;
         Mode mode;
+        double speed;
 
+        // MANUAL MODE
         double steer;
         double drive;
 
         /// Update for MANUAL mode
         void updateMotors();
 
+        // TARGET MODE
+
+        double targetHeading;
+        PID steerPID;
+
     public:
-        MotionControl(Platform & platform,
-                      Localizer & local,
-                      PID steerPID,
-                      Mode mode = MANUAL);
+        MotionControl(Platform & platform, Localizer & local, Mode mode = MANUAL);
 
         Mode getMode() const;
 

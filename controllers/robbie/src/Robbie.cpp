@@ -1,8 +1,7 @@
 #include "robbie/Robbie.hpp"
 
 namespace robbie {
-    Robbie::Robbie(PID steerPID)
-        : platform(), local(platform), mc(platform, local, steerPID) {}
+    Robbie::Robbie() : platform(), local(platform), mc(platform, local) {}
 
     int Robbie::step(int duration) {
         int status = platform.step(duration);
