@@ -9,9 +9,12 @@ namespace robbie {
     using std::sqrt;
     using std::atan2;
 
-    PathPlanning::PathPlanning(double x, double y, double zoneSize)
-        : target(x, y),
-          zoneSize(zoneSize),
+    PathPlanning::PathPlanning(Robbie & robbie)
+        : platform(robbie.platform),
+          local(robbie.local),
+          mc(robbie.mc),
+          target(0, 0),
+          zoneSize(1),
           index(0),
           mode(GRID_SEARCH),
           reverseTime(0.0) {}
@@ -61,59 +64,57 @@ namespace robbie {
         mode = GRID_SEARCH;
     }
 
-    void PathPlanning::update(Platform * roomba,
-                              Localizer * local,
-                              MotionControl * mc) {
-        double dt = roomba->dt();
+    void PathPlanning::update() {
+        double dt = platform.dt();
 
         if (mode == GRID_SEARCH) {
-            bool bump = roomba->bumper->getValue() == 1.0;
+            bool bump = platform.bumper->getValue() == 1.0;
             if (bump) {
                 startReverse();
                 return;
             }
 
-            mc->setDrive(1.0);
+            mc.setDrive(1.0);
             return;
         }
         else if (mode == REVERSE || mode == UNDOCK) {
             if (reverseTime <= 0.0) {
                 if (mode == REVERSE) {
                     startReverseTurn();
-                    mc->setTarget(local->getHeading() + M_PI / 3);
+                    mc.setTarget(local.getHeading() + M_PI / 3);
                 }
                 else {
                     mode = UNDOCK_TURN;
-                    mc->setTarget(local->getHeading() + M_PI);
+                    mc.setTarget(local.getHeading() + M_PI);
                 }
                 return;
             }
 
-            mc->setDrive(-0.5);
+            mc.setDrive(-0.5);
             reverseTime -= dt;
 
             return;
         }
         else if (mode == REVERSE_TURN || mode == UNDOCK_TURN) {
-            if (abs(local->getHeading() - mc->getTarget()) < 0.01) {
+            if (abs(local.getHeading() - mc.getTarget()) < 0.01) {
                 startGridSearch();
             }
             else {
-                mc->setDrive(0.0);
+                mc.setDrive(0.0);
             }
             return;
         }
 
-        auto delta = local->getPosition() - target;
+        auto delta = local.getPosition() - target;
         delta.normalize();
-        dist = local->getPosition().dist(target);
+        dist = local.getPosition().dist(target);
 
         double heading = delta.angle();
-        mc->setTarget(heading);
+        mc.setTarget(heading);
 
         if (mode == TURN) {
-            mc->setDrive(0);
-            if (abs(local->getHeading() - heading) < 0.01) {
+            mc.setDrive(0);
+            if (abs(local.getHeading() - heading) < 0.01) {
                 Logging::Planning->debug("Planning mode switch to FOLLOW");
                 mode = FOLLOW;
             }
@@ -126,12 +127,12 @@ namespace robbie {
                 mode = TURN;
             }
             else {
-                mc->setDrive(0);
+                mc.setDrive(0);
             }
             return;
         }
 
-        mc->setDrive(1.0);
+        mc.setDrive(1.0);
     }
 
     json PathPlanning::getTelemetry() const {

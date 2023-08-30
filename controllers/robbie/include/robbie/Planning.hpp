@@ -2,8 +2,7 @@
 
 #include <vector>
 
-#include "MotionControl.hpp"
-#include "Platform.hpp"
+#include "Robbie.hpp"
 #include "Telemetry.hpp"
 #include "XY.hpp"
 
@@ -21,6 +20,10 @@ namespace robbie {
             UNDOCK_TURN,
         } mode;
 
+        Platform & platform;
+        Localizer & local;
+        MotionControl & mc;
+
         XY target;
         double zoneSize;
 
@@ -32,7 +35,7 @@ namespace robbie {
         double reverseTime;
 
     public:
-        PathPlanning(double x = 1, double y = 1, double zoneSize = 1);
+        PathPlanning(Robbie & robbie);
 
         void setPath(vector<XY> & newPath);
 
@@ -52,7 +55,7 @@ namespace robbie {
 
         void startGridSearch();
 
-        void update(Platform * roomba, Localizer * local, MotionControl * mc);
+        void update();
 
         json getTelemetry() const override;
     };

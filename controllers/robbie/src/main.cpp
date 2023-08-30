@@ -65,7 +65,7 @@ int main() {
 
     WorldModel world;
 
-    PathPlanning planner;
+    PathPlanning planner(robbie);
 
     Logging::Core->debug("Initialization complete");
 
@@ -77,7 +77,8 @@ int main() {
     planner.startUndock();
 
     while (robbie.step(TIME_STEP) != -1) {
-        planner.update(&robbie.platform, &robbie.local, &robbie.mc);
+        planner.update();
+        // FIXME: Planner gets updated after MotionControl
         tel.send(&robbie);
         tel.send(&planner);
     }
