@@ -1,11 +1,12 @@
 #include "robbie/Robbie.hpp"
 
 namespace robbie {
-    Robbie::Robbie() : platform(), local() {}
+    Robbie::Robbie(PID steerPID)
+        : platform(), local(platform), mc(platform, local, steerPID) {}
 
     int Robbie::step(int duration) {
         int status = platform.step(duration);
-        local.update(platform);
+        local.update();
         return status;
     }
 
@@ -13,9 +14,9 @@ namespace robbie {
         json res;
         res.update(platform.getTelemetry());
         res.update(local.getTelemetry());
+        res.update(mc.getTelemetry());
         // res.update(world.getTelemetry());
         // res.update(planner.getTelemetry());
-        // res.update(mc.getTelemetry());
         return res;
     }
 }

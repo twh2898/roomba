@@ -16,6 +16,9 @@ namespace robbie {
         };
 
     private:
+        Platform & platform;
+        Localizer & local;
+
         double speed;
         double heading; // Current heading as of last update
         double targetHeading;
@@ -26,7 +29,10 @@ namespace robbie {
         double drive;
 
     public:
-        MotionControl(PID steerPID, Mode mode = MANUAL);
+        MotionControl(Platform & platform,
+                      Localizer & local,
+                      PID steerPID,
+                      Mode mode = MANUAL);
 
         Mode getMode() const;
 
@@ -50,7 +56,7 @@ namespace robbie {
 
         double headingDiff() const;
 
-        void update(Platform * roomba, Localizer * local);
+        void update();
 
         json getTelemetry() const override;
     };

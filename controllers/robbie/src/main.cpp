@@ -56,33 +56,29 @@ int main() {
 
     Telemetry tel(config.telemetry.port, config.telemetry.address);
 
-    Robbie robbie;
-    robbie.platform.enable(TIME_STEP);
-
     auto pidConfig = config.pid;
     PID pid(-1, 1, pidConfig.p, pidConfig.i, pidConfig.d);
+
+    Robbie robbie(pid);
+    robbie.platform.enable(TIME_STEP);
+    robbie.mc.setSpeed(pidConfig.speed);
 
     WorldModel world;
 
     PathPlanning planner;
-    MotionControl mc(pid, MotionControl::HEADING);
-    mc.setSpeed(pidConfig.speed);
 
     Logging::Core->debug("Initialization complete");
 
     robbie.step(TIME_STEP);
-    mc.setTarget(robbie.local.getHeading());
+    robbie.mc.setTarget(robbie.local.getHeading());
     auto h = robbie.local.getHeading();
     Logging::Core->debug("Starting heading is {}", h);
 
     planner.startUndock();
 
     while (robbie.step(TIME_STEP) != -1) {
-        mc.update(&robbie.platform, &robbie.local);
-
         tel.send(&robbie);
         tel.send(&planner);
-        tel.send(&mc);
     }
 
     return 0;

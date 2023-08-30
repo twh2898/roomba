@@ -14,13 +14,15 @@ namespace robbie {
     class Robbie;
 
     class Localizer : public TelemetrySender {
+        Platform & platform;
+
         double twist;
         double heading;
         double vel;
         XY pos;
 
     public:
-        Localizer();
+        Localizer(Platform & platform);
 
         double getTwist() const;
 
@@ -30,7 +32,7 @@ namespace robbie {
 
         XY getPosition() const;
 
-        void update(Platform & platform);
+        void update();
 
         json getTelemetry() const override;
     };

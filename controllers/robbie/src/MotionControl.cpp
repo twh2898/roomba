@@ -5,8 +5,13 @@
 namespace robbie {
     using std::clamp;
 
-    MotionControl::MotionControl(PID steerPID, Mode mode)
-        : speed(20),
+    MotionControl::MotionControl(Platform & platform,
+                                 Localizer & local,
+                                 PID steerPID,
+                                 Mode mode)
+        : platform(platform),
+          local(local),
+          speed(20),
           heading(0),
           targetHeading(0),
           steerPID(steerPID),
@@ -60,13 +65,13 @@ namespace robbie {
         return targetHeading - heading;
     }
 
-    void MotionControl::update(Platform * roomba, Localizer * local) {
+    void MotionControl::update() {
         double leftSpeed = 0;
         double rightSpeed = 0;
 
-        auto t = roomba->getSamplingPeriod();
+        auto t = platform.getSamplingPeriod();
         double dt = t / 1000.0;
-        heading = local->getHeading();
+        heading = local.getHeading();
 
         if (mode == HEADING) {
             double e = targetHeading - heading;
@@ -82,8 +87,8 @@ namespace robbie {
         leftSpeed = speed * clamp(drive - steer, -1.0, 1.0);
         rightSpeed = speed * clamp(drive + steer, -1.0, 1.0);
 
-        roomba->leftMotor->setVelocity(leftSpeed);
-        roomba->rightMotor->setVelocity(rightSpeed);
+        platform.leftMotor->setVelocity(leftSpeed);
+        platform.rightMotor->setVelocity(rightSpeed);
     }
 
     json MotionControl::getTelemetry() const {

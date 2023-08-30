@@ -1,7 +1,8 @@
 #include "robbie/Localizer.hpp"
 
 namespace robbie {
-    Localizer::Localizer() : twist(0), heading(0), vel(0), pos(0, 0) {}
+    Localizer::Localizer(Platform & platform)
+        : platform(platform), twist(0), heading(0), vel(0), pos(0, 0) {}
 
     double Localizer::getTwist() const {
         return twist;
@@ -19,7 +20,7 @@ namespace robbie {
         return pos;
     }
 
-    void Localizer::update(Platform & platform) {
+    void Localizer::update() {
         twist = platform.gyro->getValues()[2];
 
         heading = platform.imu->getRollPitchYaw()[2];
