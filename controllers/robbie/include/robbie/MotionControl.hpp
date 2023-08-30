@@ -11,7 +11,7 @@ namespace robbie {
     class MotionControl : public TelemetrySender {
     public:
         enum Mode {
-            MANUAL,
+            MANUAL = 0,
             TARGET,
         };
 

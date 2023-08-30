@@ -105,7 +105,7 @@ namespace robbie {
         return json {
             {"mc",
              {
-                 {"mode", (mode == MANUAL ? 0 : 1)},
+                 {"mode", mode},
                  {"target", targetHeading},
                  {"steer", steer},
                  {"drive", drive},
