@@ -1,12 +1,14 @@
 #pragma once
 
 #include <cmath>
+#include <ostream>
 
 namespace robbie {
     using std::sin;
     using std::cos;
     using std::atan2;
     using std::sqrt;
+    using std::ostream;
 
     struct XY {
         double x;
@@ -171,4 +173,8 @@ namespace robbie {
             return (x * other.y) - (y * other.x);
         }
     };
+
+    ostream & operator<<(ostream & os, const XY & xy) {
+        return os << "XY(x=" << xy.x << ", y=" << xy.y << ")";
+    }
 }
