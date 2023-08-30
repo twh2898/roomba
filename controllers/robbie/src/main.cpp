@@ -77,6 +77,7 @@ int main() {
     planner.startUndock();
 
     while (robbie.step(TIME_STEP) != -1) {
+        planner.update(&robbie.platform, &robbie.local, &robbie.mc);
         tel.send(&robbie);
         tel.send(&planner);
     }
