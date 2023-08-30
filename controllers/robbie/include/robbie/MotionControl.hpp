@@ -12,7 +12,7 @@ namespace robbie {
     public:
         enum Mode {
             MANUAL,
-            HEADING,
+            TARGET,
         };
 
     private:
@@ -54,7 +54,7 @@ namespace robbie {
 
         void setDrive(double val);
 
-        // HEADING MODE
+        // TARGET MODE
 
         double getTarget() const;
 

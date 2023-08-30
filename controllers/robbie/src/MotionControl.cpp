@@ -66,7 +66,7 @@ namespace robbie {
         }
     }
 
-    // HEADING MODE
+    // TARGET MODE
 
     double MotionControl::getTarget() const {
         return targetHeading;
@@ -85,7 +85,7 @@ namespace robbie {
         auto t = platform.getSamplingPeriod();
         double dt = t / 1000.0;
 
-        if (mode == HEADING) {
+        if (mode == TARGET) {
             double e = targetHeading - local.getHeading();
             if (e < -M_PI)
                 e = -(e - M_PI);
