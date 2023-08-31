@@ -20,6 +20,7 @@ set(SOURCE_LIST
     main.cpp
     Config.cpp
     Localizer.cpp
+    log.cpp
     MotionControl.cpp
     PID.cpp
     Planning.cpp

@@ -32,21 +32,10 @@ using namespace robbie;
 
 #define TIME_STEP 64
 
-namespace robbie::Logging {
-    Logger::Ptr Main;
-    Logger::Ptr Config;
-    Logger::Ptr MC;
-    Logger::Ptr Planning;
-}
-
 int main() {
     spdlog::set_level(spdlog::level::debug);
-    Logging::Main = make_shared<Logging::Logger>("Core");
+    Logging::init_logging();
     Logging::Main->debug("Logging enabled");
-
-    Logging::Config = make_shared<Logging::Logger>("Config");
-    Logging::MC = make_shared<Logging::Logger>("MC");
-    Logging::Planning = make_shared<Logging::Logger>("Planning");
 
     Config config;
     try {

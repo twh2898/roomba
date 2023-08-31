@@ -200,4 +200,6 @@ namespace robbie::Logging {
     extern Logger::Ptr Config;
     extern Logger::Ptr MC;
     extern Logger::Ptr Planning;
+
+    void init_logging();
 }
