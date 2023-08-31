@@ -2,31 +2,31 @@
 set(TARGET robbie)
 
 set(HEADER_LIST
-    Config.hpp
-    Localizer.hpp
-    log.hpp
-    MotionControl.hpp
-    PID.hpp
+    base/Localizer.hpp
+    base/MotionControl.hpp
+    base/Platform.hpp
+    base/Robbie.hpp
+    util/Config.hpp
+    util/log.hpp
+    util/PID.hpp
+    util/Telemetry.hpp
+    util/XY.hpp
     Planning.hpp
-    Platform.hpp
-    Robbie.hpp
-    Telemetry.hpp
     World.hpp
-    XY.hpp
 )
 list(TRANSFORM HEADER_LIST PREPEND "include/${TARGET}/")
 
 set(SOURCE_LIST
     main.cpp
-    Config.cpp
-    Localizer.cpp
-    log.cpp
-    MotionControl.cpp
-    PID.cpp
+    base/Localizer.cpp
+    base/MotionControl.cpp
+    base/Platform.cpp
+    base/Robbie.cpp
+    util/Config.cpp
+    util/log.cpp
+    util/PID.cpp
+    util/Telemetry.cpp
     Planning.cpp
-    Platform.cpp
-    Robbie.cpp
-    Telemetry.cpp
     World.cpp
 )
 list(TRANSFORM SOURCE_LIST PREPEND "src/")

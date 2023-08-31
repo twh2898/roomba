@@ -1,8 +1,8 @@
-#include "robbie/MotionControl.hpp"
+#include "robbie/base/MotionControl.hpp"
 
 #include <algorithm>
 
-#include "robbie/log.hpp"
+#include "robbie/util/log.hpp"
 
 namespace robbie {
     using std::clamp;

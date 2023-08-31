@@ -1,4 +1,4 @@
-#include "robbie/Platform.hpp"
+#include "robbie/base/Platform.hpp"
 
 namespace robbie {
     Platform::Platform() : robot(), lastStep(0.0) {

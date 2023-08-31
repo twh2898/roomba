@@ -3,7 +3,7 @@
 #include "Localizer.hpp"
 #include "MotionControl.hpp"
 #include "Platform.hpp"
-#include "Telemetry.hpp"
+#include "robbie/util/Telemetry.hpp"
 
 namespace robbie {
     class Robbie : public TelemetrySender {

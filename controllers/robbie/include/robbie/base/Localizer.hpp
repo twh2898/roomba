@@ -4,8 +4,8 @@
 #include <webots/Motor.hpp>
 
 #include "Platform.hpp"
-#include "Telemetry.hpp"
-#include "XY.hpp"
+#include "robbie/util/Telemetry.hpp"
+#include "robbie/util/XY.hpp"
 
 namespace robbie {
     using webots::Accelerometer;

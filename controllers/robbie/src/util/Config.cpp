@@ -1,8 +1,8 @@
-#include "robbie/Config.hpp"
+#include "robbie/util/Config.hpp"
 
 #include <fstream>
 
-#include "robbie/log.hpp"
+#include "robbie/util/log.hpp"
 
 namespace robbie {
     using std::fstream;

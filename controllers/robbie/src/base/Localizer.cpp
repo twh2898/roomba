@@ -1,4 +1,4 @@
-#include "robbie/Localizer.hpp"
+#include "robbie/base/Localizer.hpp"
 
 namespace robbie {
     Localizer::Localizer(Platform & platform)

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Localizer.hpp"
-#include "Platform.hpp"
-#include "Telemetry.hpp"
+#include "base/Localizer.hpp"
+#include "base/Platform.hpp"
+#include "util/Telemetry.hpp"
 
 namespace robbie {
     class WorldModel : public TelemetrySender {

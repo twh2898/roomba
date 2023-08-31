@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "Robbie.hpp"
-#include "Telemetry.hpp"
-#include "XY.hpp"
+#include "base/Robbie.hpp"
+#include "util/Telemetry.hpp"
+#include "util/XY.hpp"
 
 namespace robbie {
     using std::vector;

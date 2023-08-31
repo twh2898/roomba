@@ -3,9 +3,9 @@
 #include <cmath>
 
 #include "Localizer.hpp"
-#include "PID.hpp"
+#include "robbie/util/PID.hpp"
 #include "Platform.hpp"
-#include "Telemetry.hpp"
+#include "robbie/util/Telemetry.hpp"
 
 namespace robbie {
     class MotionControl : public TelemetrySender {

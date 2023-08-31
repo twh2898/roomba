@@ -17,16 +17,16 @@ using namespace std;
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-#include "robbie/Config.hpp"
-#include "robbie/Localizer.hpp"
-#include "robbie/MotionControl.hpp"
-#include "robbie/PID.hpp"
 #include "robbie/Planning.hpp"
-#include "robbie/Platform.hpp"
-#include "robbie/Robbie.hpp"
-#include "robbie/Telemetry.hpp"
 #include "robbie/World.hpp"
-#include "robbie/log.hpp"
+#include "robbie/base/Localizer.hpp"
+#include "robbie/base/MotionControl.hpp"
+#include "robbie/base/Platform.hpp"
+#include "robbie/base/Robbie.hpp"
+#include "robbie/util/Config.hpp"
+#include "robbie/util/PID.hpp"
+#include "robbie/util/Telemetry.hpp"
+#include "robbie/util/log.hpp"
 
 using namespace robbie;
 

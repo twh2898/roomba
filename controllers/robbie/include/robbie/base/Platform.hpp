@@ -10,7 +10,7 @@
 #include <webots/Robot.hpp>
 #include <webots/TouchSensor.hpp>
 
-#include "Telemetry.hpp"
+#include "robbie/util/Telemetry.hpp"
 
 namespace robbie {
     using namespace webots;
