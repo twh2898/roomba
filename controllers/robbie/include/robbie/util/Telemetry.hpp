@@ -2,11 +2,13 @@
 
 #include <arpa/inet.h>
 
+#include <chrono>
 #include <string>
 
 #include "json.hpp"
 
 namespace robbie {
+    namespace chrono = std::chrono;
     using json = nlohmann::json;
 
     using std::string;
@@ -55,5 +57,42 @@ namespace robbie {
          * @param sender the TelemetrySender
          */
         void send(TelemetrySender * sender);
+    };
+
+    class Profiler {
+    public:
+        using clock = std::chrono::high_resolution_clock;
+
+    private:
+        clock::time_point lastPoint;
+
+    public:
+        Profiler() {
+            reset();
+        }
+
+        void reset() {
+            lastPoint = clock::now();
+        }
+
+        clock::duration tick() {
+            auto now = clock::now();
+            auto delta = now - lastPoint;
+            lastPoint = now;
+            return delta;
+        }
+
+        uint64_t tick_ns() {
+            return chrono::duration_cast<chrono::nanoseconds>(tick()).count();
+        }
+
+        uint64_t tick_ms() {
+            return chrono::duration_cast<chrono::milliseconds>(tick()).count();
+        }
+
+        double tick_s() {
+            using seconds = chrono::duration<double>;
+            return chrono::duration_cast<seconds>(tick()).count();
+        }
     };
 }

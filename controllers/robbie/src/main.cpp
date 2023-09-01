@@ -44,10 +44,31 @@ int main() {
 
     planner.startUndock();
 
+    Profiler prof, profPlan, profTelem, profSim;
+
+    profSim.reset();
     while (robbie.step(TIME_STEP) != -1) {
+        auto simDelta = profSim.tick_s();
+        profPlan.reset();
         planner.update();
+        auto planDelta = profPlan.tick_s();
+
+        profTelem.reset();
         tel.send(&robbie);
         tel.send(&planner);
+        auto telDelta = profTelem.tick_s();
+
+        json profile {
+            {"profile",
+             {
+                 {"sim", simDelta},
+                 {"planner", planDelta},
+                 {"telemetry", telDelta},
+                 {"main", prof.tick_s()},
+             }},
+        };
+        tel.send(profile);
+        profSim.reset();
     }
 
     return 0;
