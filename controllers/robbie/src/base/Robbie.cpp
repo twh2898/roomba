@@ -5,8 +5,10 @@ namespace robbie {
 
     int Robbie::step(int duration) {
         int status = platform.step(duration);
-        local.update();
-        mc.update();
+        if (status != -1) {
+            local.update();
+            mc.update();
+        }
         return status;
     }
 
