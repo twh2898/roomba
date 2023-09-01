@@ -9,8 +9,7 @@ using namespace robbie;
 #define TIME_STEP 64
 
 int main() {
-    spdlog::set_level(spdlog::level::debug);
-    Logging::init_logging();
+    Logging::init_logging(spdlog::level::debug);
     Logging::Main->debug("Logging enabled");
 
     Config config;

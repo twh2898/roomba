@@ -201,5 +201,5 @@ namespace robbie::Logging {
     extern Logger::Ptr MC;
     extern Logger::Ptr Planning;
 
-    void init_logging();
+    void init_logging(spdlog::level::level_enum level);
 }
