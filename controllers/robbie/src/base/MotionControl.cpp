@@ -1,6 +1,7 @@
 #include "robbie/base/MotionControl.hpp"
 
 #include <algorithm>
+#include <cmath>
 
 #include "robbie/util/log.hpp"
 

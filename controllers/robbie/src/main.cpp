@@ -1,30 +1,6 @@
-#include <webots/Accelerometer.hpp>
-#include <webots/Gyro.hpp>
-#include <webots/Motor.hpp>
-#include <webots/PositionSensor.hpp>
-#include <webots/Robot.hpp>
-#include <webots/TouchSensor.hpp>
-using namespace webots;
-
-#include <cmath>
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <vector>
-using namespace std;
-
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
-
 #include "robbie/Planning.hpp"
 #include "robbie/World.hpp"
-#include "robbie/base/Localizer.hpp"
-#include "robbie/base/MotionControl.hpp"
-#include "robbie/base/Platform.hpp"
-#include "robbie/base/Robbie.hpp"
 #include "robbie/util/Config.hpp"
-#include "robbie/util/PID.hpp"
 #include "robbie/util/Telemetry.hpp"
 #include "robbie/util/log.hpp"
 

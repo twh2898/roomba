@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cmath>
 #include <webots/Accelerometer.hpp>
 #include <webots/GPS.hpp>
 #include <webots/Gyro.hpp>

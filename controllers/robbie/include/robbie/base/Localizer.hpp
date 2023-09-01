@@ -1,8 +1,5 @@
 #pragma once
 
-#include <webots/Accelerometer.hpp>
-#include <webots/Motor.hpp>
-
 #include "Platform.hpp"
 #include "robbie/util/Telemetry.hpp"
 #include "robbie/util/XY.hpp"
