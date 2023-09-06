@@ -1,6 +1,7 @@
 #include "robbie/Planning.hpp"
 #include "robbie/World.hpp"
 #include "robbie/util/Config.hpp"
+#include "robbie/util/Profiler.hpp"
 #include "robbie/util/Telemetry.hpp"
 #include "robbie/util/log.hpp"
 
@@ -9,7 +10,7 @@ using namespace robbie;
 #define TIME_STEP 64
 
 int main() {
-    Logging::init_logging(spdlog::level::debug);
+    Logging::init_logging(spdlog::level::trace);
     Logging::Main->debug("Logging enabled");
 
     Config config;
@@ -44,31 +45,31 @@ int main() {
 
     planner.startUndock();
 
-    Profiler prof, profPlan, profTelem, profSim;
+    Profiler prof;
 
-    profSim.reset();
+    R_DEF_CLOCK(prof, clkMain, "main");
+    R_DEF_CLOCK(prof, clkSim, "simulation");
+    R_DEF_CLOCK(prof, clkPlan, "planner");
+    R_DEF_CLOCK(prof, clkTelem, "telemetry");
+
+    clkSim.reset();
     while (robbie.step(TIME_STEP) != -1) {
-        auto simDelta = profSim.tick_s();
-        profPlan.reset();
-        planner.update();
-        auto planDelta = profPlan.tick_s();
+        clkSim.tick();
 
-        profTelem.reset();
-        tel.send(&robbie);
-        tel.send(&planner);
-        auto telDelta = profTelem.tick_s();
+        R_PROFILE_STEP(clkPlan, planner.update());
 
+        R_PROFILE_STEP(clkTelem, {
+            tel.send(&robbie);
+            tel.send(&planner);
+        });
+
+        clkMain.tick();
         json profile {
-            {"profile",
-             {
-                 {"sim", simDelta},
-                 {"planner", planDelta},
-                 {"telemetry", telDelta},
-                 {"main", prof.tick_s()},
-             }},
+            {"profile", prof.getTelemetry()},
         };
         tel.send(profile);
-        profSim.reset();
+
+        clkSim.reset();
     }
 
     return 0;

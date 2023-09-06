@@ -11,6 +11,7 @@ set(UTIL_HEADER_LIST
     Config.hpp
     log.hpp
     PID.hpp
+    Profiler.hpp
     Telemetry.hpp
     XY.hpp
 )
@@ -20,6 +21,7 @@ set(UTIL_SOURCE_LIST
     Config.cpp
     log.cpp
     PID.cpp
+    Profiler.cpp
     Telemetry.cpp
 )
 list(TRANSFORM UTIL_SOURCE_LIST PREPEND "src/${UTIL_TARGET}/")
