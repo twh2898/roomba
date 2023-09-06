@@ -7,6 +7,8 @@
 
 using namespace robbie;
 
+#include <stdexcept>
+
 #define TIME_STEP 64
 
 int main() {
@@ -63,7 +65,8 @@ int main() {
             tel.send(&planner);
         });
 
-        clkMain.tick();
+        // FIXME: Why does this cause Platform::robot.step() to fail sometimes?
+        // clkMain.tick();
         json profile {
             {"profile", prof.getTelemetry()},
         };
