@@ -55,11 +55,11 @@ namespace robbie {
         Profiler() {}
 
         Clock & getClock(const string & name) {
-            // for (auto & clock : clocks) {
-            //     if (clock.name == name) {
-            //         return clock;
-            //     }
-            // }
+            for (auto & clock : clocks) {
+                if (clock.name == name) {
+                    return clock;
+                }
+            }
             return clocks.emplace_back(name);
         }
 
