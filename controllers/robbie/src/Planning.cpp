@@ -48,6 +48,11 @@ namespace robbie {
         reverseTime = 2.0;
     }
 
+    void PathPlanning::startUndockTurn() {
+        Logging::Planning->debug("Planning mode switch to UNDOCK_TURN");
+        mode = UNDOCK_TURN;
+    }
+
     void PathPlanning::startReverse() {
         Logging::Planning->debug("Planning mode switch to REVERSE");
         mode = REVERSE;
@@ -67,43 +72,48 @@ namespace robbie {
     void PathPlanning::update() {
         double dt = platform.dt();
 
-        if (mode == GRID_SEARCH) {
-            bool bump = platform.bumper->getValue() == 1.0;
-            if (bump) {
-                startReverse();
-                return;
-            }
-
-            mc.setDrive(1.0);
-            return;
-        }
-        else if (mode == REVERSE || mode == UNDOCK) {
-            if (reverseTime <= 0.0) {
-                if (mode == REVERSE) {
-                    startReverseTurn();
-                    mc.setTarget(local.getHeading() + M_PI / 3);
+        switch (mode) {
+            case GRID_SEARCH: {
+                bool bump = platform.bumper->getValue() == 1.0;
+                if (bump) {
+                    startReverse();
                 }
                 else {
-                    mode = UNDOCK_TURN;
-                    mc.setTarget(local.getHeading() + M_PI);
+                    mc.setDrive(1.0);
                 }
-                return;
-            }
-
-            mc.setDrive(-0.5);
-            reverseTime -= dt;
-
-            return;
+            } break;
+            case REVERSE:
+            case UNDOCK: {
+                if (reverseTime <= 0.0) {
+                    if (mode == REVERSE) {
+                        startReverseTurn();
+                        mc.setTarget(local.getHeading() + M_PI / 3);
+                    }
+                    else {
+                        startUndockTurn();
+                        mc.setTarget(local.getHeading() + M_PI / 3);
+                    }
+                }
+                else {
+                    mc.setDrive(-0.5);
+                    reverseTime -= dt;
+                }
+            } break;
+            case REVERSE_TURN:
+            case UNDOCK_TURN: {
+                if (abs(local.getHeading() - mc.getTarget()) < 0.01) {
+                    startGridSearch();
+                }
+                else {
+                    mc.setDrive(0.0);
+                }
+            } break;
+            default:
+                Logging::Planning->warning("Reached a bad state mode={}", (int)mode);
+                break;
         }
-        else if (mode == REVERSE_TURN || mode == UNDOCK_TURN) {
-            if (abs(local.getHeading() - mc.getTarget()) < 0.01) {
-                startGridSearch();
-            }
-            else {
-                mc.setDrive(0.0);
-            }
-            return;
-        }
+
+        return;
 
         auto delta = local.getPosition() - target;
         delta.normalize();

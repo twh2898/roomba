@@ -49,6 +49,8 @@ namespace robbie {
 
         void startUndock();
 
+        void startUndockTurn();
+
         void startReverse();
 
         void startReverseTurn();
