@@ -67,6 +67,7 @@ int main() {
 
         // FIXME: Why does this cause Platform::robot.step() to fail sometimes?
         // clkMain.tick();
+
         json profile {
             {"profile", prof.getTelemetry()},
         };
