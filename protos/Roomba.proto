@@ -6,6 +6,7 @@ PROTO Roomba [
   field SFRotation rotation     0 0 1 0
   field SFString   controller   "<generic>"
   field SFFloat    wheelMaxVelocity 20
+  field MFNode     children []
 ]
 {
   Robot {
@@ -125,6 +126,9 @@ PROTO Roomba [
         contactMaterial "slide"
         physics Physics {
         }
+      }
+      Group {
+        children IS children
       }
     ]
     boundingObject Pose {
