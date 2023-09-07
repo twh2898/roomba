@@ -167,5 +167,5 @@ RectangleArena {
   floorSize 3 3
 }
 Roomba {
-  controller "robbie"
+  controller "<extern>"
 }
