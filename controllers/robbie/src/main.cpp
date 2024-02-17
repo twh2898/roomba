@@ -27,18 +27,15 @@ int main() {
 
     Telemetry tel(config.telemetry.port, config.telemetry.address);
 
-    auto pidConfig = config.pid;
-    // PID pid(-1, 1, pidConfig.p, pidConfig.i, pidConfig.d);
-
     Robbie robbie;
     robbie.platform.enable(TIME_STEP);
-    robbie.mc.setSpeed(pidConfig.speed);
+    robbie.mc.setSpeed(config.pid.speed);
 
     WorldModel world;
 
     PathPlanning planner(robbie);
 
-    Logging::Main->debug("Initialization complete");
+    Logging::Main->info("Initialization complete");
 
     robbie.step(TIME_STEP);
     robbie.mc.setTarget(robbie.local.getHeading());
