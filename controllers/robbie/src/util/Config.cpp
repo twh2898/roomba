@@ -8,7 +8,7 @@ namespace robbie {
     using std::fstream;
 
     Config Config::fromFile(const string & file) {
-        Logging::Config->debug("Loading config from {}", file);
+        Logging::Config->info("Loading config from {}", file);
         fstream f(file);
         json data = json::parse(f);
 
