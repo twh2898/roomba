@@ -7,11 +7,6 @@
 namespace robbie {
     using std::fstream;
 
-#define TEST_KEY(KEY, DATA)                                \
-    if (!(DATA).contains((KEY))) {                         \
-        throw ConfigLoadException("Missing key " + (KEY)); \
-    }
-
     Config Config::fromFile(const string & file) {
         Logging::Config->debug("Loading config from {}", file);
         fstream f(file);
