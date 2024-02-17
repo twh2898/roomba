@@ -54,9 +54,9 @@ int main() {
     R_DEF_CLOCK(prof, clkPlan, "planner");
     R_DEF_CLOCK(prof, clkTelem, "telemetry");
 
-    clkSim.reset();
+    clkSim->reset();
     while (robbie.step(TIME_STEP) != -1) {
-        clkSim.tick();
+        clkSim->tick();
 
         R_PROFILE_STEP(clkPlan, planner.update());
 
@@ -65,15 +65,14 @@ int main() {
             tel.send(&planner);
         });
 
-        // FIXME: Why does this cause Platform::robot.step() to fail sometimes?
-        // clkMain.tick();
+        clkMain->tick();
 
         json profile {
             {"profile", prof.getTelemetry()},
         };
         tel.send(profile);
 
-        clkSim.reset();
+        clkSim->reset();
     }
 
     return 0;
