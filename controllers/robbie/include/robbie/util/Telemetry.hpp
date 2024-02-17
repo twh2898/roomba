@@ -49,13 +49,13 @@ namespace robbie {
          *
          * @param data json telemetry object
          */
-        void send(json data);
+        void send(json data) const;
 
         /**
          * @brief Send telemetry from a TelemetrySender via getTelemetry().
          *
          * @param sender the TelemetrySender
          */
-        void send(TelemetrySender * sender);
+        void send(const TelemetrySender * sender) const;
     };
 }

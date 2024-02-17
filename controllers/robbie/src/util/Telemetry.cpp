@@ -17,14 +17,14 @@ namespace robbie {
         inet_pton(AF_INET, udpAddress.c_str(), &m_addr.sin_addr);
     }
 
-    void Telemetry::send(json data) {
+    void Telemetry::send(json data) const {
         string message = data.dump();
         size_t message_length = message.length();
         sendto(m_socket, message.c_str(), message_length, 0,
-               reinterpret_cast<sockaddr *>(&m_addr), sizeof(m_addr));
+               reinterpret_cast<const sockaddr *>(&m_addr), sizeof(m_addr));
     }
 
-    void Telemetry::send(TelemetrySender * sender) {
+    void Telemetry::send(const TelemetrySender * sender) const {
         send(sender->getTelemetry());
     }
 }
