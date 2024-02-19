@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Platform.hpp"
 #include "robbie/util/Telemetry.hpp"
 #include "robbie/util/XY.hpp"
@@ -7,11 +9,15 @@
 namespace robbie {
     using webots::Accelerometer;
     using webots::Motor;
-
-    class Robbie;
+    using std::shared_ptr;
 
     class Localizer : public TelemetrySender {
-        Platform & platform;
+    public:
+        using Ptr = shared_ptr<Localizer>;
+        using ConstPtr = const shared_ptr<Localizer>;
+
+    private:
+        Platform::Ptr platform;
 
         double twist;
         double heading;
@@ -19,7 +25,7 @@ namespace robbie {
         XY pos;
 
     public:
-        Localizer(Platform & platform);
+        Localizer(Platform::Ptr & platform);
 
         double getTwist() const;
 

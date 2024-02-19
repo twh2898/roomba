@@ -27,9 +27,9 @@ int main() {
 
     Telemetry tel(config.telemetry.port, config.telemetry.address);
 
-    Robbie robbie;
-    robbie.platform.enable(TIME_STEP);
-    robbie.mc.setSpeed(config.pid.speed);
+    Robbie::Ptr robbie = make_shared<Robbie>();
+    robbie->platform->enable(TIME_STEP);
+    robbie->mc->setSpeed(config.pid.speed);
 
     WorldModel world;
 
@@ -37,9 +37,9 @@ int main() {
 
     Logging::Main->info("Initialization complete");
 
-    robbie.step(TIME_STEP);
-    robbie.mc.setTarget(robbie.local.getHeading());
-    auto h = robbie.local.getHeading();
+    robbie->step(TIME_STEP);
+    robbie->mc->setTarget(robbie->local->getHeading());
+    auto h = robbie->local->getHeading();
     Logging::Main->debug("Starting heading is {}", h);
 
     planner.startUndock();
@@ -52,13 +52,13 @@ int main() {
     R_DEF_CLOCK(prof, clkTelem, "telemetry");
 
     clkSim->reset();
-    while (robbie.step(TIME_STEP) != -1) {
+    while (robbie->step(TIME_STEP) != -1) {
         clkSim->tick();
 
         R_PROFILE_STEP(clkPlan, planner.update());
 
         R_PROFILE_STEP(clkTelem, {
-            tel.send(&robbie);
+            tel.send(robbie.get());
             tel.send(&planner);
         });
 

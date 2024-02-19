@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <webots/Accelerometer.hpp>
 #include <webots/GPS.hpp>
 #include <webots/Gyro.hpp>
@@ -13,11 +14,15 @@
 
 namespace robbie {
     using namespace webots;
+    using std::shared_ptr;
 
     class Platform : public TelemetrySender {
         int lastStep;
 
     public:
+        using Ptr = shared_ptr<Platform>;
+        using ConstPtr = const shared_ptr<Platform>;
+
         const float radius = 0.155;
 
     public:

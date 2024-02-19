@@ -8,7 +8,9 @@
 namespace robbie {
     using std::clamp;
 
-    MotionControl::MotionControl(Platform & platform, Localizer & local, Mode mode)
+    MotionControl::MotionControl(const Platform::Ptr & platform,
+                                 const Localizer::Ptr & local,
+                                 Mode mode)
         : platform(platform),
           local(local),
           speed(20),
@@ -22,8 +24,8 @@ namespace robbie {
         double leftSpeed = speed * clamp(drive - steer, -1.0, 1.0);
         double rightSpeed = speed * clamp(drive + steer, -1.0, 1.0);
 
-        platform.leftMotor->setVelocity(leftSpeed);
-        platform.rightMotor->setVelocity(rightSpeed);
+        platform->leftMotor->setVelocity(leftSpeed);
+        platform->rightMotor->setVelocity(rightSpeed);
     }
 
     MotionControl::Mode MotionControl::getMode() const {
@@ -90,11 +92,11 @@ namespace robbie {
         if (mode == MANUAL)
             return;
 
-        auto t = platform.getSamplingPeriod();
+        auto t = platform->getSamplingPeriod();
         double dt = t / 1000.0;
 
         if (mode == TARGET) {
-            double e = targetHeading - local.getHeading();
+            double e = targetHeading - local->getHeading();
             if (e < -M_PI)
                 e = -(e - M_PI);
             else if (e > M_PI)

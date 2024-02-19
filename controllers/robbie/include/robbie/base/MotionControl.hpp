@@ -1,21 +1,28 @@
 #pragma once
 
+#include <memory>
+
 #include "Localizer.hpp"
 #include "Platform.hpp"
 #include "robbie/util/PID.hpp"
 #include "robbie/util/Telemetry.hpp"
 
 namespace robbie {
+    using std::shared_ptr;
+
     class MotionControl : public TelemetrySender {
     public:
+        using Ptr = shared_ptr<MotionControl>;
+        using ConstPtr = const shared_ptr<MotionControl>;
+
         enum Mode {
             MANUAL = 0,
             TARGET,
         };
 
     private:
-        Platform & platform;
-        Localizer & local;
+        Platform::Ptr platform;
+        Localizer::Ptr local;
 
         Mode mode;
         double speed;
@@ -33,7 +40,9 @@ namespace robbie {
         PID steerPID;
 
     public:
-        MotionControl(Platform & platform, Localizer & local, Mode mode = MANUAL);
+        MotionControl(const Platform::Ptr & platform,
+                      const Localizer::Ptr & local,
+                      Mode mode = MANUAL);
 
         Mode getMode() const;
 

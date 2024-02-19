@@ -20,9 +20,9 @@ namespace robbie {
             UNDOCK_TURN,
         } mode;
 
-        Platform & platform;
-        Localizer & local;
-        MotionControl & mc;
+        Platform::Ptr platform;
+        Localizer::Ptr local;
+        MotionControl::Ptr mc;
 
         XY target;
         double zoneSize;
@@ -35,7 +35,7 @@ namespace robbie {
         double reverseTime;
 
     public:
-        PathPlanning(Robbie & robbie);
+        PathPlanning(const Robbie::Ptr & robbie);
 
         void setPath(vector<XY> & newPath);
 
